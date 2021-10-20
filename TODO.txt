@@ -1,0 +1,7 @@
+Features to implement (TODO):
+
+    - Create re-usable card component meant to render the main categories
+    such as Rockets, Dragons, etc...
+    - Implement logic to navigate to macro-category and being also able to
+    navigate to children (use react navigation library)
+    - Apply background-color black to application
