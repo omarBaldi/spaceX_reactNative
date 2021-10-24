@@ -1,4 +1,3 @@
-/* eslint-disable */
 import React, { useEffect, useState } from 'react';
 import {
   ScrollView,
@@ -9,15 +8,13 @@ import {
 } from 'react-native';
 import { MainCategories, mainCategoriesAPIEndpoint } from './src/API';
 import { NavigationContainer } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { TabScreenI } from './src/navigators/tabNavigator/dto';
 import { TabNavigator } from './src/navigators/tabNavigator';
 import axios from 'axios';
-
-const Stack = createNativeStackNavigator();
+import { DefaultStackNavigator } from './src/navigators/stackNavigator';
 
 /* Render the IMAGE for the MAIN CATEGORIES */
-const CommonTabNavigatorScreen = ({
+export const CommonTabNavigatorScreen = ({
   navigation,
   route,
 }: {
@@ -62,7 +59,7 @@ const CommonTabNavigatorScreen = ({
 };
 
 /* Page that render the data from the API endpoint passed as a param depending on the main category clicked */
-const CategoryScreen = ({
+export const CategoryScreen = ({
   navigation,
   route,
 }: {
@@ -194,7 +191,7 @@ const CategoryScreen = ({
 };
 
 /* Render the page of a specific item from ID */
-const SubCategoriesScreen = () => {
+export const SubCategoriesScreen = () => {
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
       <Text>SubCategories Screen</Text>
@@ -202,48 +199,21 @@ const SubCategoriesScreen = () => {
   );
 };
 
-/* Main Categories Screens */
-
-const StackNavigator = ({ currentCategory }: { currentCategory: string }) => {
-  return (
-    <Stack.Navigator
-      screenOptions={{
-        headerShown: false,
-      }}
-    >
-      {/* The first route will be an image of the rockets page */}
-      <Stack.Screen
-        name={currentCategory}
-        component={CommonTabNavigatorScreen}
-      />
-      {/* The second one will be the rockets retieved from the API */}
-      <Stack.Screen
-        name='Category'
-        component={CategoryScreen}
-        options={{
-          headerShown: true,
-          headerStyle: { backgroundColor: 'black' },
-        }}
-      />
-      {/* The third and last one will be a specific rocket (retrieved from ID) */}
-      <Stack.Screen name='SubCategories' component={SubCategoriesScreen} />
-    </Stack.Navigator>
-  );
-};
-
 /* APP - entry point */
 export default function App() {
   const getMainCategoriesNavigators = () => {
     return Object.entries(MainCategories).reduce(
-      (acc, [key, value]: [string, string]) => {
+      (acc, [_, value]: [string, string]) => {
         const tabScreenName: string = value.concat('Navigator');
         return [
           ...acc,
           {
             name: tabScreenName,
-            children: (props: any) => (
-              <StackNavigator currentCategory={value} {...props} />
-            ),
+            children: (props: any) => {
+              return (
+                <DefaultStackNavigator currentCategory={value} {...props} />
+              );
+            },
           },
         ];
       },
