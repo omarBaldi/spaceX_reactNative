@@ -1,76 +1,20 @@
 /* eslint-disable */
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
-  Button,
   ScrollView,
-  StyleSheet,
   Text,
   View,
   Image,
   TouchableHighlight,
 } from 'react-native';
-import { BASE_API_URL, MainCategoriesAPI, shipsAPI } from './src/API';
-import { primaryColor } from './src/common/styles/colors';
-import { CardCategories } from './src/organisms/card-categories';
-import { NavigationContainer, useNavigation } from '@react-navigation/native';
-import {
-  createNativeStackNavigator,
-  NativeStackNavigationProp,
-} from '@react-navigation/native-stack';
-import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
+import { MainCategories, mainCategoriesAPIEndpoint } from './src/API';
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { TabScreenI } from './src/navigators/tabNavigator/dto';
+import { TabNavigator } from './src/navigators/tabNavigator';
 import axios from 'axios';
 
-const Tab = createMaterialTopTabNavigator();
 const Stack = createNativeStackNavigator();
-
-const configStackScreenAnimation = {
-  animation: 'spring',
-  config: {
-    stiffness: 1000,
-    damping: 500,
-    mass: 3,
-    overshootClamping: true,
-    restDisplacementThreshold: 0.01,
-    restSpeedThreshold: 0.01,
-  },
-};
-
-const getMainCategories = () => {
-  return [
-    {
-      title: 'Rockets',
-      imageURL:
-        'https://randomwordgenerator.com/img/picture-generator/53e0d4464257ab14f1dc8460962e33791c3ad6e04e507440762a7cd0934fc5_640.jpg',
-      apiURL: MainCategoriesAPI.ROCKETS_API_URL,
-    },
-    {
-      title: 'Dragons',
-      imageURL:
-        'https://randomwordgenerator.com/img/picture-generator/53e0d4464257ab14f1dc8460962e33791c3ad6e04e507440762a7cd0934fc5_640.jpg',
-
-      apiURL: MainCategoriesAPI.DRAGONS_API_URL,
-    },
-    {
-      title: 'Launches',
-      imageURL:
-        'https://randomwordgenerator.com/img/picture-generator/53e0d4464257ab14f1dc8460962e33791c3ad6e04e507440762a7cd0934fc5_640.jpg',
-
-      apiURL: MainCategoriesAPI.LAUNCHES_API_URL,
-    },
-  ];
-};
-
-enum MainCategories {
-  ROCKETS = 'Rockets',
-  DRAGONS = 'Dragons',
-  SHIPS = 'Ships',
-}
-
-const mainCategoriesAPIEndpoint = {
-  [MainCategories.ROCKETS]: `${BASE_API_URL}/rockets`,
-  [MainCategories.DRAGONS]: `${BASE_API_URL}/dragons`,
-  [MainCategories.SHIPS]: `${BASE_API_URL}/ships`,
-};
 
 /* Render the IMAGE for the MAIN CATEGORIES */
 const CommonTabNavigatorScreen = ({
@@ -260,7 +204,7 @@ const SubCategoriesScreen = () => {
 
 /* Main Categories Screens */
 
-const RocketsScreen = ({ navigation }: { navigation: any }) => {
+const StackNavigator = ({ currentCategory }: { currentCategory: string }) => {
   return (
     <Stack.Navigator
       screenOptions={{
@@ -269,7 +213,7 @@ const RocketsScreen = ({ navigation }: { navigation: any }) => {
     >
       {/* The first route will be an image of the rockets page */}
       <Stack.Screen
-        name={MainCategories.ROCKETS}
+        name={currentCategory}
         component={CommonTabNavigatorScreen}
       />
       {/* The second one will be the rockets retieved from the API */}
@@ -287,70 +231,33 @@ const RocketsScreen = ({ navigation }: { navigation: any }) => {
   );
 };
 
-const DragonsScreen = () => {
-  return (
-    <Stack.Navigator
-      screenOptions={{
-        headerShown: false,
-      }}
-    >
-      {/* The first route will be an image of the rockets page */}
-      <Stack.Screen
-        name={MainCategories.DRAGONS}
-        component={CommonTabNavigatorScreen}
-      />
-      {/* The second one will be the rockets retieved from the API */}
-      <Stack.Screen
-        name='Category'
-        component={CategoryScreen}
-        options={{ headerShown: true, backgroundColor: 'black' }}
-      />
-      {/* The third and last one will be a specific rocket (retrieved from ID) */}
-      <Stack.Screen name='SubCategories' component={SubCategoriesScreen} />
-    </Stack.Navigator>
-  );
-};
-
-const ShipsScreen = () => {
-  return (
-    <Stack.Navigator
-      screenOptions={{
-        headerShown: false,
-      }}
-    >
-      {/* The first route will be an image of the rockets page */}
-      <Stack.Screen
-        name={MainCategories.SHIPS}
-        component={CommonTabNavigatorScreen}
-      />
-      {/* The second one will be the rockets retieved from the API */}
-      <Stack.Screen
-        name='Category'
-        component={CategoryScreen}
-        options={{ headerShown: true, backgroundColor: 'black' }}
-      />
-      {/* The third and last one will be a specific rocket (retrieved from ID) */}
-      <Stack.Screen name='SubCategories' component={SubCategoriesScreen} />
-    </Stack.Navigator>
-  );
-};
-
 /* APP - entry point */
-
 export default function App() {
+  const getMainCategoriesNavigators = () => {
+    return Object.entries(MainCategories).reduce(
+      (acc, [key, value]: [string, string]) => {
+        const tabScreenName: string = value.concat('Navigator');
+        return [
+          ...acc,
+          {
+            name: tabScreenName,
+            children: (props: any) => (
+              <StackNavigator currentCategory={value} {...props} />
+            ),
+          },
+        ];
+      },
+      [] as TabScreenI[]
+    );
+  };
+
   return (
     <NavigationContainer>
-      <Tab.Navigator
-        screenOptions={{
-          tabBarStyle: {
-            display: 'none',
-          },
+      <TabNavigator
+        {...{
+          tabNavigatorData: getMainCategoriesNavigators(),
         }}
-      >
-        <Tab.Screen name={MainCategories.ROCKETS} component={RocketsScreen} />
-        <Tab.Screen name={MainCategories.DRAGONS} component={DragonsScreen} />
-        <Tab.Screen name={MainCategories.SHIPS} component={ShipsScreen} />
-      </Tab.Navigator>
+      />
     </NavigationContainer>
   );
 }
