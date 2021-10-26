@@ -38,25 +38,9 @@ const ElementsScreen = ({
 
     try {
       const { data } = await axios({ method: 'GET', url: APIEndpoint });
-      //As soon as I retrieve the data, I need to check which APIEndpoint is that
-      //and using the code below
-      /* 
-        let currentData;
-        switch(APIEndpoint) {
-            case (): 
-                currentData = data as RocketsI[];
-                break;
-            case (): 
-                currentData = data as Dragons[];
-                break;
-            case (): 
-                currentData = data as Ships[];
-                break;
-        }
-      */
       updateAPIdata('currentData', data);
     } catch (err) {
-      updateAPIdata('error', (err as any).message);
+      updateAPIdata('error', (err as any).message as string);
     } finally {
       updateAPIdata('loading', false);
     }
@@ -67,7 +51,7 @@ const ElementsScreen = ({
   }, [APIEndpoint]);
 
   const renderDOMElement = (
-    currentElementData: any,
+    currentElementData: ShipsI | RocketsI | DragonsI,
     currentElementIndex: number
   ) => {
     switch (currentScreenName) {
@@ -206,6 +190,7 @@ const ElementsScreen = ({
                 borderTopRightRadius: 10,
               }}
             >
+              {/* TODO: test on Image URL if null/undefined */}
               <Image
                 source={{ uri: image }}
                 style={{ width: '100%', height: '100%' }}
@@ -266,8 +251,6 @@ const ElementsScreen = ({
       <View
         style={{
           flex: 1,
-          alignItems: 'center',
-          justifyContent: 'center',
           paddingLeft: 20,
           paddingRight: 20,
           paddingTop: 50,
@@ -275,6 +258,16 @@ const ElementsScreen = ({
           minHeight: '100%',
         }}
       >
+        <Text
+          style={{
+            color: 'white',
+            fontWeight: '700',
+            fontSize: 30,
+            marginBottom: 30,
+          }}
+        >
+          {currentScreenName}
+        </Text>
         {apiData.currentData.map(renderDOMElement)}
       </View>
     </ScrollView>

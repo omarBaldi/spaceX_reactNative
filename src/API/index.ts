@@ -20,7 +20,7 @@ export interface ShipsI {
   roles: string[];
   mass_kg: number;
   year_built: number;
-  image: string;
+  image?: string;
 }
 
 export interface RocketsI {

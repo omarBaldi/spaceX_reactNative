@@ -9,6 +9,9 @@
   },
   "dependencies": {
     "@expo-google-fonts/poppins": "^0.2.0",
+    "@fortawesome/fontawesome-svg-core": "^1.2.36",
+    "@fortawesome/free-solid-svg-icons": "^5.15.4",
+    "@fortawesome/react-native-fontawesome": "^0.2.7",
     "@react-navigation/bottom-tabs": "^6.0.9",
     "@react-navigation/material-top-tabs": "^6.0.6",
     "@react-navigation/native": "^6.0.6",
@@ -25,6 +28,7 @@
     "react-native-pages": "^0.9.0",
     "react-native-safe-area-context": "3.2.0",
     "react-native-screens": "~3.4.0",
+    "react-native-svg": "^12.1.1",
     "react-native-tab-view": "^3.1.1",
     "react-native-web": "~0.13.12"
   },

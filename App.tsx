@@ -25,23 +25,18 @@ export const SubCategoriesScreen = () => {
 /* APP - entry point */
 export default function App() {
   const getMainCategoriesNavigators = () => {
-    return Object.entries(MainCategories).reduce(
-      (acc, [_, value]: [string, string]) => {
-        const tabScreenName: string = value.concat('Navigator');
-        return [
-          ...acc,
-          {
-            name: tabScreenName,
-            children: (props: any) => {
-              return (
-                <DefaultStackNavigator currentCategory={value} {...props} />
-              );
-            },
+    return Object.values(MainCategories).reduce((acc, value: string) => {
+      const tabScreenName: string = value.concat('Navigator');
+      return [
+        ...acc,
+        {
+          name: tabScreenName,
+          children: (props: any) => {
+            return <DefaultStackNavigator currentCategory={value} {...props} />;
           },
-        ];
-      },
-      [] as TabScreenI[]
-    );
+        },
+      ];
+    }, [] as TabScreenI[]);
   };
 
   return (

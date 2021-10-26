@@ -3,6 +3,8 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { SubCategoriesScreen } from '../../../App';
 import { HomepageScreen } from '../../screens/homepage';
 import { ElementsScreen } from '../../screens/elements';
+import { View } from 'react-native';
+import { GoBackButton } from '../../atoms/goBackButton';
 
 const Stack = createNativeStackNavigator();
 
@@ -21,12 +23,20 @@ const DefaultStackNavigator = ({
     >
       <Stack.Screen name={currentCategory} component={HomepageScreen} />
       <Stack.Screen
-        name='Category'
-        component={ElementsScreen}
         options={{
           headerShown: true,
-          headerStyle: { backgroundColor: 'black' },
+          headerLeft: () => (
+            <View style={{ marginLeft: 10 }}>
+              <GoBackButton />
+            </View>
+          ),
+          headerTitle: '',
+          headerStyle: {
+            backgroundColor: '#080808',
+          },
         }}
+        name='Category'
+        component={ElementsScreen}
       />
       <Stack.Screen name='SubCategories' component={SubCategoriesScreen} />
     </Stack.Navigator>

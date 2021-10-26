@@ -1,4 +1,5 @@
-import React, { FC, useEffect } from 'react';
+import { NavigationProp, ParamListBase } from '@react-navigation/native';
+import React from 'react';
 import { TouchableHighlight, View, Text } from 'react-native';
 import { MainCategories, mainCategoriesAPIEndpoint } from '../../API';
 
@@ -6,7 +7,7 @@ const HomepageScreen = ({
   navigation,
   route,
 }: {
-  navigation: any;
+  navigation: NavigationProp<ParamListBase>;
   route: any;
 }) => {
   const { name: currentScreenName }: { name: MainCategories } = route;
