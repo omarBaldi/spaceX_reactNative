@@ -1,21 +1,16 @@
+import {
+  NavigationProp,
+  ParamListBase,
+  useNavigation,
+} from '@react-navigation/native';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { ScrollView, View, Image, Text } from 'react-native';
-import {
-  DragonsI,
-  MainCategories,
-  mainCategoriesAPIEndpoint,
-  RocketsI,
-  ShipsI,
-} from '../../API';
+import { ScrollView, View, Image, Text, Pressable } from 'react-native';
+import { DragonsI, MainCategories, RocketsI, ShipsI } from '../../API';
 
-const ElementsScreen = ({
-  navigation,
-  route,
-}: {
-  navigation: any;
-  route: any;
-}) => {
+const ElementsScreen = ({ route }: { route: any }) => {
+  const navigation: NavigationProp<ParamListBase> = useNavigation();
+
   const {
     APIEndpoint,
     currentScreenName,
@@ -33,6 +28,7 @@ const ElementsScreen = ({
     });
   };
 
+  /* TODO: create custom hook to call API endpoint */
   const retrieveData = async (): Promise<void> => {
     updateAPIdata('loading', true);
 
@@ -46,6 +42,25 @@ const ElementsScreen = ({
     }
   };
 
+  const PressableElementContainer = ({
+    currentID,
+    children,
+  }: {
+    currentID: string;
+    children: JSX.Element;
+  }) => (
+    <Pressable
+      onPress={() =>
+        navigation.navigate({
+          name: 'SubCategories',
+          params: { currentID },
+        })
+      }
+    >
+      {children}
+    </Pressable>
+  );
+
   useEffect(() => {
     retrieveData();
   }, [APIEndpoint]);
@@ -57,189 +72,215 @@ const ElementsScreen = ({
     switch (currentScreenName) {
       case MainCategories.ROCKETS:
         const {
+          id: rocketID,
           name: rocketName,
           description,
           flickr_images: rocketImages,
+          active,
+          cost_per_launch,
+          height: { meters: currentHeight },
+          diameter: { meters: currentDiameter },
+          mass: { kg },
         } = currentElementData as RocketsI;
         return (
-          <View
-            key={currentElementIndex}
-            style={{
-              width: '100%',
-              marginBottom: 30,
-            }}
-          >
-            {/* Image */}
+          <PressableElementContainer currentID={rocketID}>
             <View
+              key={currentElementIndex}
               style={{
-                height: 170,
                 width: '100%',
-                overflow: 'hidden',
-                borderTopLeftRadius: 10,
-                borderTopRightRadius: 10,
+                marginBottom: 30,
               }}
             >
-              <Image
-                source={{ uri: rocketImages[0] }}
-                style={{ width: '100%', height: '100%' }}
-              />
-            </View>
-            {/* Text */}
-            <View
-              style={{
-                paddingTop: 20,
-                paddingBottom: 20,
-                paddingLeft: 10,
-                backgroundColor: '#222',
-                borderBottomLeftRadius: 10,
-                borderBottomRightRadius: 10,
-              }}
-            >
-              <Text
+              {/* Image */}
+              <View
                 style={{
-                  color: '#a21232',
-                  fontWeight: '700',
-                  fontSize: 20,
+                  height: 170,
+                  width: '100%',
+                  overflow: 'hidden',
+                  borderTopLeftRadius: 10,
+                  borderTopRightRadius: 10,
                 }}
               >
-                Name: {rocketName}
-              </Text>
-              <Text style={{ color: 'white', fontWeight: '500', fontSize: 15 }}>
+                <Image
+                  source={{ uri: rocketImages[0] }}
+                  style={{ width: '100%', height: '100%' }}
+                />
+              </View>
+              {/* Text */}
+              <View
+                style={{
+                  paddingTop: 20,
+                  paddingBottom: 20,
+                  paddingLeft: 10,
+                  backgroundColor: '#222',
+                  borderBottomLeftRadius: 10,
+                  borderBottomRightRadius: 10,
+                }}
+              >
+                <Text
+                  style={{
+                    color: 'white',
+                    fontWeight: '700',
+                    fontSize: 20,
+                  }}
+                >
+                  {rocketName}
+                </Text>
+                {/* <Text style={{ color: 'white', fontWeight: '500', fontSize: 15 }}>
                 Description: {description}
-              </Text>
+              </Text> */}
+                <Text style={{ color: 'white' }}>
+                  cost_per_launch: {cost_per_launch}
+                </Text>
+                <Text style={{ color: 'white' }}>
+                  currentHeight: {currentHeight}
+                </Text>
+                <Text style={{ color: 'white' }}>
+                  currentDiameter: {currentDiameter}
+                </Text>
+                <Text style={{ color: 'white' }}>kg: {kg}</Text>
+              </View>
             </View>
-          </View>
+          </PressableElementContainer>
         );
       case MainCategories.DRAGONS:
         const {
+          id: dragonID,
           name: dragonName,
           crew_capacity,
           flickr_images: dragonImages,
         } = currentElementData as DragonsI;
         return (
-          <View
-            key={currentElementIndex}
-            style={{
-              width: '100%',
-              marginBottom: 30,
-            }}
-          >
-            {/* Image */}
+          <PressableElementContainer currentID={dragonID}>
             <View
+              key={currentElementIndex}
               style={{
-                height: 170,
                 width: '100%',
-                overflow: 'hidden',
-                borderTopLeftRadius: 10,
-                borderTopRightRadius: 10,
+                marginBottom: 30,
               }}
             >
-              <Image
-                source={{ uri: dragonImages[0] }}
-                style={{ width: '100%', height: '100%' }}
-              />
-            </View>
-            {/* Text */}
-            <View
-              style={{
-                paddingTop: 20,
-                paddingBottom: 20,
-                paddingLeft: 10,
-                backgroundColor: '#222',
-                borderBottomLeftRadius: 10,
-                borderBottomRightRadius: 10,
-              }}
-            >
-              <Text
+              {/* Image */}
+              <View
                 style={{
-                  color: '#a21232',
-                  fontWeight: '700',
-                  fontSize: 20,
+                  height: 170,
+                  width: '100%',
+                  overflow: 'hidden',
+                  borderTopLeftRadius: 10,
+                  borderTopRightRadius: 10,
                 }}
               >
-                Name: {dragonName}
-              </Text>
-              <Text style={{ color: 'white', fontWeight: '500', fontSize: 15 }}>
-                Crew capacity: {crew_capacity}
-              </Text>
+                <Image
+                  source={{ uri: dragonImages[0] }}
+                  style={{ width: '100%', height: '100%' }}
+                />
+              </View>
+              {/* Text */}
+              <View
+                style={{
+                  paddingTop: 20,
+                  paddingBottom: 20,
+                  paddingLeft: 10,
+                  backgroundColor: '#222',
+                  borderBottomLeftRadius: 10,
+                  borderBottomRightRadius: 10,
+                }}
+              >
+                <Text
+                  style={{
+                    color: '#a21232',
+                    fontWeight: '700',
+                    fontSize: 20,
+                  }}
+                >
+                  Name: {dragonName}
+                </Text>
+                <Text
+                  style={{ color: 'white', fontWeight: '500', fontSize: 15 }}
+                >
+                  Crew capacity: {crew_capacity}
+                </Text>
+              </View>
             </View>
-          </View>
+          </PressableElementContainer>
         );
       case MainCategories.SHIPS:
         const {
+          id: shipID,
           name: shipName,
           image,
           type,
           home_port,
         } = currentElementData as ShipsI;
         return (
-          <View
-            key={currentElementIndex}
-            style={{
-              width: '100%',
-              marginBottom: 30,
-            }}
-          >
-            {/* Image */}
+          <PressableElementContainer currentID={shipID}>
             <View
+              key={currentElementIndex}
               style={{
-                height: 170,
                 width: '100%',
-                overflow: 'hidden',
-                borderTopLeftRadius: 10,
-                borderTopRightRadius: 10,
+                marginBottom: 30,
               }}
             >
-              {/* TODO: test on Image URL if null/undefined */}
-              <Image
-                source={{ uri: image }}
-                style={{ width: '100%', height: '100%' }}
-              />
-            </View>
-            {/* Text */}
-            <View
-              style={{
-                paddingTop: 20,
-                paddingBottom: 20,
-                paddingLeft: 10,
-                //backgroundColor: '#222',
-                backgroundColor: '#181818',
-                borderBottomLeftRadius: 10,
-                borderBottomRightRadius: 10,
-              }}
-            >
-              <Text
+              {/* Image */}
+              <View
                 style={{
-                  color: 'white',
-                  fontWeight: '700',
-                  fontSize: 20,
-                  marginBottom: 15,
+                  height: 170,
+                  width: '100%',
+                  overflow: 'hidden',
+                  borderTopLeftRadius: 10,
+                  borderTopRightRadius: 10,
                 }}
               >
-                Name: {shipName}
-              </Text>
-              <Text
+                {/* TODO: test on Image URL if null/undefined */}
+                <Image
+                  source={{ uri: image }}
+                  style={{ width: '100%', height: '100%' }}
+                />
+              </View>
+              {/* Text */}
+              <View
                 style={{
-                  color: 'lightgrey',
-                  marginBottom: 5,
-                  fontWeight: '500',
-                  fontSize: 15,
+                  paddingTop: 20,
+                  paddingBottom: 20,
+                  paddingLeft: 10,
+                  //backgroundColor: '#222',
+                  backgroundColor: '#181818',
+                  borderBottomLeftRadius: 10,
+                  borderBottomRightRadius: 10,
                 }}
               >
-                Type: {type}
-              </Text>
-              <Text
-                style={{
-                  color: 'lightgrey',
+                <Text
+                  style={{
+                    color: 'white',
+                    fontWeight: '700',
+                    fontSize: 20,
+                    marginBottom: 15,
+                  }}
+                >
+                  Name: {shipName}
+                </Text>
+                <Text
+                  style={{
+                    color: 'lightgrey',
+                    marginBottom: 5,
+                    fontWeight: '500',
+                    fontSize: 15,
+                  }}
+                >
+                  Type: {type}
+                </Text>
+                <Text
+                  style={{
+                    color: 'lightgrey',
 
-                  fontWeight: '500',
-                  fontSize: 15,
-                }}
-              >
-                Home port: {home_port}
-              </Text>
+                    fontWeight: '500',
+                    fontSize: 15,
+                  }}
+                >
+                  Home port: {home_port}
+                </Text>
+              </View>
             </View>
-          </View>
+          </PressableElementContainer>
         );
       default:
         return null;
@@ -268,6 +309,26 @@ const ElementsScreen = ({
         >
           {currentScreenName}
         </Text>
+
+        {apiData.loading ? (
+          <View>
+            <Text style={{ color: 'white', textAlign: 'center' }}>
+              Loading...
+            </Text>
+          </View>
+        ) : (
+          <></>
+        )}
+
+        {apiData.error ? (
+          <View>
+            <Text style={{ color: 'white', textAlign: 'center' }}>
+              {apiData.error}
+            </Text>
+          </View>
+        ) : (
+          <></>
+        )}
         {apiData.currentData.map(renderDOMElement)}
       </View>
     </ScrollView>

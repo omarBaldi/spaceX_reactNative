@@ -7,10 +7,18 @@ import { TabNavigator } from './src/navigators/tabNavigator';
 import { DefaultStackNavigator } from './src/navigators/stackNavigator';
 
 /* Render the page of a specific item from ID */
-export const SubCategoriesScreen = () => {
+export const SubCategoriesScreen = ({ route }: { route: any }) => {
+  const { currentID } = route.params;
   return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Text>SubCategories Screen</Text>
+    <View
+      style={{
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: '#080808',
+      }}
+    >
+      <Text style={{ color: 'white' }}>Retrieve api for {currentID}</Text>
     </View>
   );
 };
