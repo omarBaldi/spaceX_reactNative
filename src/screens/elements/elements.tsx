@@ -76,11 +76,6 @@ const ElementsScreen = ({ route }: { route: any }) => {
           name: rocketName,
           description,
           flickr_images: rocketImages,
-          active,
-          cost_per_launch,
-          height: { meters: currentHeight },
-          diameter: { meters: currentDiameter },
-          mass: { kg },
         } = currentElementData as RocketsI;
         return (
           <PressableElementContainer currentID={rocketID}>
@@ -110,8 +105,9 @@ const ElementsScreen = ({ route }: { route: any }) => {
               <View
                 style={{
                   paddingTop: 20,
+                  paddingLeft: 15,
+                  paddingRight: 15,
                   paddingBottom: 20,
-                  paddingLeft: 10,
                   backgroundColor: '#222',
                   borderBottomLeftRadius: 10,
                   borderBottomRightRadius: 10,
@@ -121,24 +117,22 @@ const ElementsScreen = ({ route }: { route: any }) => {
                   style={{
                     color: 'white',
                     fontWeight: '700',
-                    fontSize: 20,
+                    fontSize: 30,
+                    marginBottom: 10,
                   }}
                 >
                   {rocketName}
                 </Text>
-                {/* <Text style={{ color: 'white', fontWeight: '500', fontSize: 15 }}>
-                Description: {description}
-              </Text> */}
-                <Text style={{ color: 'white' }}>
-                  cost_per_launch: {cost_per_launch}
+                <Text
+                  numberOfLines={3}
+                  style={{
+                    color: 'lightgrey',
+                    fontWeight: '500',
+                    fontSize: 15,
+                  }}
+                >
+                  {description}
                 </Text>
-                <Text style={{ color: 'white' }}>
-                  currentHeight: {currentHeight}
-                </Text>
-                <Text style={{ color: 'white' }}>
-                  currentDiameter: {currentDiameter}
-                </Text>
-                <Text style={{ color: 'white' }}>kg: {kg}</Text>
               </View>
             </View>
           </PressableElementContainer>
@@ -303,7 +297,7 @@ const ElementsScreen = ({ route }: { route: any }) => {
           style={{
             color: 'white',
             fontWeight: '700',
-            fontSize: 30,
+            fontSize: 45,
             marginBottom: 30,
           }}
         >
