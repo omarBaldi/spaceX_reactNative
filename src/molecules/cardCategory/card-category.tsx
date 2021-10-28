@@ -1,5 +1,5 @@
 import React, { FC } from 'react';
-import { View, Text, Image, TouchableHighlight } from 'react-native';
+import { View, Text, Image, Pressable } from 'react-native';
 import { CardCategoryProps } from '.';
 import { cardCategoryStyle as Styles } from './style';
 import { useNavigation } from '@react-navigation/native';
@@ -13,7 +13,7 @@ const CardCategory: FC<CardCategoryProps> = ({
   const navigation = useNavigation<NativeStackNavigationProp<any, any>>();
 
   return (
-    <TouchableHighlight
+    <Pressable
       onPress={() =>
         navigation.navigate({
           name: 'Category',
@@ -26,7 +26,7 @@ const CardCategory: FC<CardCategoryProps> = ({
         <View style={Styles.cardImageOverlay} />
         <Text style={Styles.cardText}>{title}</Text>
       </View>
-    </TouchableHighlight>
+    </Pressable>
   );
 };
 

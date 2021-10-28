@@ -66,6 +66,12 @@ export const mainCategoriesAPIEndpoint = {
   [MainCategories.SHIPS]: `${BASE_API_URL}/ships`,
 };
 
+export const getImagePathRequire = {
+  [MainCategories.ROCKETS]: require('../assets/images/rocket.jpg'),
+  [MainCategories.DRAGONS]: require('../assets/images/dragon.jpg'),
+  [MainCategories.SHIPS]: require('../assets/images/launch.jpg'),
+};
+
 export const MainCategoriesAPI = {
   ROCKETS_API_URL: `${BASE_API_URL}/rockets`,
   DRAGONS_API_URL: `${BASE_API_URL}/dragons`,

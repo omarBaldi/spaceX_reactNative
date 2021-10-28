@@ -1,18 +1,18 @@
-//import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
-//import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
+import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome';
 import {
   NavigationProp,
   ParamListBase,
   useNavigation,
 } from '@react-navigation/native';
 import React, { FC } from 'react';
-import { TouchableHighlight, View, Text } from 'react-native';
+import { Pressable, View } from 'react-native';
 
 const GoBackButton: FC<{}> = () => {
   const navigation: NavigationProp<ParamListBase> = useNavigation();
 
   return (
-    <TouchableHighlight
+    <Pressable
       onPress={() => navigation.goBack()}
       style={{ backgroundColor: 'black' }}
     >
@@ -29,11 +29,11 @@ const GoBackButton: FC<{}> = () => {
           alignItems: 'center',
         }}
       >
-        {/* <FontAwesomeIcon icon={faArrowLeft} color='white' /> */}
-        <Text style={{ color: 'white' }}>--</Text>
+        <FontAwesomeIcon icon={faArrowLeft} color='white' />
+        {/*  <Text style={{ color: 'white' }}>--</Text> */}
         {/* ---> Temporary */}
       </View>
-    </TouchableHighlight>
+    </Pressable>
   );
 };
 

@@ -25,7 +25,7 @@ const DefaultStackNavigator = ({
       <Stack.Screen
         options={{
           headerShown: true,
-          headerLeft: () => (
+          /* headerLeft: () => (
             <View style={{ marginLeft: 10 }}>
               <GoBackButton />
             </View>
@@ -33,7 +33,7 @@ const DefaultStackNavigator = ({
           headerTitle: '',
           headerStyle: {
             backgroundColor: '#080808',
-          },
+          }, */
         }}
         name='Category'
         component={ElementsScreen}
