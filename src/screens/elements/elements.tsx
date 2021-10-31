@@ -53,7 +53,7 @@ const ElementsScreen = ({ route }: { route: any }) => {
       onPress={() =>
         navigation.navigate({
           name: 'SubCategories',
-          params: { currentID },
+          params: { currentID, APIEndpoint },
         })
       }
     >

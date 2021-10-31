@@ -1,10 +1,9 @@
 import React from 'react';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { SubCategoriesScreen } from '../../../App';
 import { HomepageScreen } from '../../screens/homepage';
 import { ElementsScreen } from '../../screens/elements';
-import { Pressable, View, Text } from 'react-native';
-import { GoBackButton } from '../../atoms/goBackButton';
+import { View, Text } from 'react-native';
+import { ElementScreen } from '../../screens/element';
 
 const Stack = createNativeStackNavigator();
 
@@ -42,7 +41,7 @@ const DefaultStackNavigator = ({
       />
       <Stack.Screen
         name='SubCategories'
-        component={SubCategoriesScreen}
+        component={ElementScreen}
         options={{
           headerShown: true,
           headerTitle: '',
