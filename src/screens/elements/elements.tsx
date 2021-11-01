@@ -5,8 +5,9 @@ import {
 } from '@react-navigation/native';
 import axios from 'axios';
 import React, { useEffect, useState } from 'react';
-import { ScrollView, View, Image, Text, Pressable } from 'react-native';
+import { ScrollView, View, Image, Text, Pressable, Button } from 'react-native';
 import { DragonsI, MainCategories, RocketsI, ShipsI } from '../../API';
+import { CustomButton } from '../../atoms/button';
 
 const ElementsScreen = ({ route }: { route: any }) => {
   const navigation: NavigationProp<ParamListBase> = useNavigation();
@@ -133,6 +134,13 @@ const ElementsScreen = ({ route }: { route: any }) => {
                 >
                   {description}
                 </Text>
+                <CustomButton
+                  {...{
+                    title: 'See More',
+                    //callbackFunc: () => console.log('Button pressed'),
+                    additionalStyle: { marginTop: 20 },
+                  }}
+                />
               </View>
             </View>
           </PressableElementContainer>
