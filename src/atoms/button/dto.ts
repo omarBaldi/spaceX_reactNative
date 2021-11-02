@@ -1,12 +1,8 @@
-import {
-  NativeSyntheticEvent,
-  NativeTouchEvent,
-  StyleProp,
-} from 'react-native';
+import { StyleProp } from 'react-native';
 
 type CustomButtonProps = {
   title: string;
-  callbackFunc?: (ev: NativeSyntheticEvent<NativeTouchEvent>) => void;
+  callbackFunc?: any;
   additionalStyle?: StyleProp<any>;
 };
 
