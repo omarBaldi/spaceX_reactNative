@@ -28,7 +28,9 @@ const CardElement: FC<CardElementProps> = ({
         }}
       >
         <Image
-          source={{ uri: imageSrc }}
+          source={{
+            uri: imageSrc ?? require('../../assets/images/imageNotFound.png'),
+          }}
           style={{ width: '100%', height: '100%' }}
         />
       </View>
