@@ -97,8 +97,11 @@ const ElementScreen = ({ route }: { route: any }) => {
         backgroundColor: '#080808',
       }}
     >
-      {Object.keys(currentElementData.elementData).length &&
-        renderElementData()}
+      {Object.keys(currentElementData.elementData).length ? (
+        renderElementData()
+      ) : (
+        <></>
+      )}
     </View>
   );
 };
