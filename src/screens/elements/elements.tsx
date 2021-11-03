@@ -3,10 +3,10 @@ import {
   ParamListBase,
   useNavigation,
 } from '@react-navigation/native';
-import axios from 'axios';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { ScrollView, View, Text } from 'react-native';
 import { DragonsI, MainCategories, RocketsI, ShipsI } from '../../API';
+import APICustomHook from '../../hooks/API-hook';
 import { CardElement } from '../../molecules/cardElement';
 
 const ElementsScreen = ({ route }: { route: any }) => {
@@ -17,43 +17,19 @@ const ElementsScreen = ({ route }: { route: any }) => {
     currentScreenName,
   }: { APIEndpoint: string; currentScreenName: string } = route.params;
 
-  const [apiData, setAPIData] = useState<{ [key: string]: any }>({
-    loading: false,
-    currentData: [],
-    error: '',
-  });
+  const {
+    loading,
+    elementData: currentData,
+    error,
+  } = APICustomHook({ APIEndpoint });
 
-  const updateAPIdata = (currentKey: string, updatedValue: any): void => {
-    setAPIData((prevState) => {
-      return { ...prevState, [currentKey]: updatedValue };
-    });
-  };
-
-  /* TODO: create custom hook to call API endpoint */
-  const retrieveData = async (): Promise<void> => {
-    updateAPIdata('loading', true);
-
-    try {
-      const { data } = await axios({ method: 'GET', url: APIEndpoint });
-      updateAPIdata('currentData', data);
-    } catch (err) {
-      updateAPIdata('error', (err as any).message as string);
-    } finally {
-      updateAPIdata('loading', false);
-    }
-  };
-
-  useEffect(() => {
-    retrieveData();
-  }, [APIEndpoint]);
-
-  const buttonPropsToPass = (currentID: string) => {
+  const buttonPropsToPass = (currentID: string, category: MainCategories) => {
     return {
       title: 'See More',
       callbackFunc: () => {
         navigation.navigate({
           name: 'SubCategories',
-          params: { currentID, APIEndpoint },
+          params: { currentID, APIEndpoint, category },
         });
       },
       additionalStyle: { marginTop: 20 },
@@ -80,7 +56,7 @@ const ElementsScreen = ({ route }: { route: any }) => {
               name: rocketName,
               description,
               imageSrc: rocketImages[0],
-              buttonData: buttonPropsToPass(rocketID),
+              buttonData: buttonPropsToPass(rocketID, MainCategories.ROCKETS),
             }}
           />
         );
@@ -97,7 +73,7 @@ const ElementsScreen = ({ route }: { route: any }) => {
               id: dragonID,
               name: dragonName,
               imageSrc: dragonImages[0],
-              buttonData: buttonPropsToPass(dragonID),
+              buttonData: buttonPropsToPass(dragonID, MainCategories.DRAGONS),
             }}
           />
         );
@@ -114,7 +90,7 @@ const ElementsScreen = ({ route }: { route: any }) => {
               id: shipID,
               name: shipName,
               imageSrc: image,
-              buttonData: buttonPropsToPass(shipID),
+              buttonData: buttonPropsToPass(shipID, MainCategories.SHIPS),
             }}
           />
         );
@@ -146,7 +122,7 @@ const ElementsScreen = ({ route }: { route: any }) => {
           {currentScreenName}
         </Text>
 
-        {apiData.loading ? (
+        {loading ? (
           <View>
             <Text style={{ color: 'white', textAlign: 'center' }}>
               Loading...
@@ -156,16 +132,15 @@ const ElementsScreen = ({ route }: { route: any }) => {
           <></>
         )}
 
-        {apiData.error ? (
+        {error ? (
           <View>
-            <Text style={{ color: 'white', textAlign: 'center' }}>
-              {apiData.error}
-            </Text>
+            <Text style={{ color: 'white', textAlign: 'center' }}>{error}</Text>
           </View>
         ) : (
           <></>
         )}
-        {apiData.currentData.map(renderDOMElement)}
+
+        {currentData.length ? currentData.map(renderDOMElement) : <></>}
       </View>
     </ScrollView>
   );

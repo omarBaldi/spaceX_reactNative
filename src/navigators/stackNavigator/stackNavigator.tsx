@@ -20,7 +20,13 @@ const DefaultStackNavigator = ({
         headerShown: false,
       }}
     >
-      <Stack.Screen name={currentCategory} component={HomepageScreen} />
+      <Stack.Screen
+        name={currentCategory}
+        component={HomepageScreen}
+        options={{
+          gestureEnabled: false,
+        }}
+      />
       <Stack.Screen
         options={(...props) => ({
           headerShown: true,
@@ -35,6 +41,7 @@ const DefaultStackNavigator = ({
               <Text style={{ color: 'white' }}>{currentCategory}</Text>
             </View>
           ),
+          gestureEnabled: false,
         })}
         name='Category'
         component={ElementsScreen}
@@ -50,6 +57,7 @@ const DefaultStackNavigator = ({
           },
           headerTintColor: 'white',
           headerBackTitle: `Back to ${currentCategory}`,
+          gestureEnabled: false,
         }}
       />
     </Stack.Navigator>
