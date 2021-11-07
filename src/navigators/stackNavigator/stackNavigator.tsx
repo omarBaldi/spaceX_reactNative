@@ -1,8 +1,8 @@
 import React from 'react';
+import { Image } from 'react-native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { HomepageScreen } from '../../screens/homepage';
 import { ElementsScreen } from '../../screens/elements';
-import { View, Text } from 'react-native';
 import { ElementScreen } from '../../screens/element';
 
 const Stack = createNativeStackNavigator();
@@ -37,9 +37,10 @@ const DefaultStackNavigator = ({
           headerTintColor: 'white',
           headerBackTitle: `Back to homepage`,
           headerRight: () => (
-            <View>
-              <Text style={{ color: 'white' }}>{currentCategory}</Text>
-            </View>
+            <Image
+              source={require('../../assets/images/spaceX_logo_black.jpeg')}
+              style={{ height: 40, width: 40 }}
+            />
           ),
           gestureEnabled: false,
         })}
@@ -57,6 +58,12 @@ const DefaultStackNavigator = ({
           },
           headerTintColor: 'white',
           headerBackTitle: `Back to ${currentCategory}`,
+          headerRight: () => (
+            <Image
+              source={require('../../assets/images/spaceX_logo_black.jpeg')}
+              style={{ height: 40, width: 40 }}
+            />
+          ),
           gestureEnabled: false,
         }}
       />
