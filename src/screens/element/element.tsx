@@ -1,7 +1,15 @@
-import axios from 'axios';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { View, Text } from 'react-native';
-import { DragonsI, MainCategories, RocketsI, ShipsI } from '../../API';
+import {
+  DragonsI,
+  MainCategories,
+  MainCategoryProps,
+  RocketsI,
+  ShipsI,
+} from '../../API';
+import { CustomText } from '../../atoms/text';
+import { TextHierarchy } from '../../atoms/text/dto';
+import APICustomHook from '../../hooks/API-hook';
 
 const ElementScreen = ({ route }: { route: any }) => {
   const {
@@ -11,35 +19,15 @@ const ElementScreen = ({ route }: { route: any }) => {
   }: { currentID: string; APIEndpoint: string; category: MainCategories } =
     route.params;
 
-  const [currentElementData, setCurrentElementData] = useState({
-    loading: false as boolean,
-    elementData: {} as RocketsI | DragonsI | ShipsI,
-    error: '' as string,
-  });
+  const {
+    loading,
+    error: errorMessage,
+    elementData,
+  } = APICustomHook({ APIEndpoint: `${APIEndpoint}/${currentID}` });
 
-  const updateElementData = (currentKey: string, currentValue: any): void => {
-    setCurrentElementData((prevState) => {
-      return { ...prevState, [currentKey]: currentValue };
-    });
-  };
-
-  const retrieveDataCurrentElement = async (): Promise<void> => {
-    updateElementData('loading', true);
-
-    try {
-      const { data } = await axios({
-        method: 'GET',
-        url: `${APIEndpoint}/${currentID}`,
-      });
-      updateElementData('elementData', data as RocketsI | DragonsI | ShipsI);
-    } catch (err) {
-      updateElementData('error', (err as any).message);
-    } finally {
-      updateElementData('loading', false);
-    }
-  };
-
-  const renderElementData = (): JSX.Element | null => {
+  const renderElementData = (
+    current: MainCategoryProps
+  ): JSX.Element | null => {
     switch (category) {
       case MainCategories.ROCKETS:
         const {
@@ -48,45 +36,55 @@ const ElementScreen = ({ route }: { route: any }) => {
           height: { meters: rocketHeight },
           diameter: { meters: rocketDiameter },
           mass: { kg },
-        } = currentElementData.elementData as RocketsI;
+          cost_per_launch,
+          country,
+          success_rate_pct,
+        } = current as RocketsI;
+        console.log(current);
         return (
           <View style={{ flex: 1, width: '100%', padding: 30 }}>
-            <Text style={{ color: 'white', fontWeight: '700', fontSize: 35 }}>
-              {rocketName}
-            </Text>
-            <Text
-              style={{ color: 'lightgrey', fontWeight: '700', fontSize: 20 }}
-            >
-              {description}
-            </Text>
-            <Text style={{ color: 'lightgrey', fontSize: 20 }}>Height</Text>
-            <Text
-              style={{ color: 'white', fontWeight: '700', fontSize: 30 }}
-            >{`${rocketHeight} M`}</Text>
-            <Text style={{ color: 'lightgrey', fontSize: 20 }}>Diameter</Text>
-            <Text
-              style={{ color: 'white', fontWeight: '700', fontSize: 30 }}
-            >{`${rocketDiameter} M`}</Text>
-            <Text style={{ color: 'lightgrey', fontSize: 20 }}>Mass</Text>
-            <Text
-              style={{ color: 'white', fontWeight: '700', fontSize: 30 }}
-            >{`${new Intl.NumberFormat('en-US').format(Number(kg))} KG`}</Text>
+            <CustomText value={rocketName} />
+            {/* +--------------------------------------------------------- */}
+            <CustomText
+              value={description}
+              hierarchy={TextHierarchy.SECONDARY}
+            />
+            {/* +--------------------------------------------------------- */}
+            <CustomText value='Height' hierarchy={TextHierarchy.SECONDARY} />
+            <CustomText value={rocketHeight} />
+            {/* +--------------------------------------------------------- */}
+            <CustomText value='Diameter' hierarchy={TextHierarchy.SECONDARY} />
+            <CustomText value={`${rocketDiameter} M`} />
+            {/* +--------------------------------------------------------- */}
+            <CustomText value='Mass' hierarchy={TextHierarchy.SECONDARY} />
+            <CustomText
+              value={`${new Intl.NumberFormat('en-US').format(Number(kg))} KG`}
+            />
+            {/* +--------------------------------------------------------- */}
+            <CustomText
+              value='Cost for launch'
+              hierarchy={TextHierarchy.SECONDARY}
+            />
+            <CustomText value={cost_per_launch} />
+            {/* +--------------------------------------------------------- */}
+            <CustomText
+              value='Success rate'
+              hierarchy={TextHierarchy.SECONDARY}
+            />
+            <CustomText value={success_rate_pct} />
+            {/* +--------------------------------------------------------- */}
           </View>
         );
       case MainCategories.DRAGONS:
-        const {} = currentElementData.elementData as DragonsI;
+        const {} = current as DragonsI;
         return <View></View>;
       case MainCategories.SHIPS:
-        const {} = currentElementData.elementData as ShipsI;
+        const {} = current as ShipsI;
         return <View></View>;
       default:
         return null;
     }
   };
-
-  useEffect(() => {
-    retrieveDataCurrentElement();
-  }, [currentID]);
 
   return (
     <View
@@ -97,10 +95,30 @@ const ElementScreen = ({ route }: { route: any }) => {
         backgroundColor: '#080808',
       }}
     >
-      {Object.keys(currentElementData.elementData).length ? (
-        renderElementData()
+      {loading ? (
+        <View>
+          <Text style={{ color: 'white', textAlign: 'center' }}>
+            Loading...
+          </Text>
+        </View>
       ) : (
         <></>
+      )}
+
+      {errorMessage ? (
+        <View>
+          <Text style={{ color: 'white', textAlign: 'center' }}>
+            {errorMessage}
+          </Text>
+        </View>
+      ) : (
+        <></>
+      )}
+
+      {!elementData || !Object.keys(elementData).length ? (
+        <></>
+      ) : (
+        renderElementData(elementData as MainCategoryProps)
       )}
     </View>
   );

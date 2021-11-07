@@ -1,12 +1,18 @@
-import { FC, useEffect, useState } from 'react';
-import { DragonsI, RocketsI, ShipsI } from '../API';
+import { useEffect, useState } from 'react';
+import { MaincategoryArrayProps, MainCategoryProps } from '../API';
 import axios from 'axios';
 
+export interface APIDataI {
+  loading: boolean;
+  elementData: MainCategoryProps | MaincategoryArrayProps | null;
+  error: string;
+}
+
 const APICustomHook = ({ APIEndpoint }: { APIEndpoint: string }) => {
-  const [currentElementData, setCurrentElementData] = useState({
-    loading: false as boolean,
-    elementData: {} as any,
-    error: '' as string,
+  const [currentElementData, setCurrentElementData] = useState<APIDataI>({
+    loading: false,
+    elementData: null,
+    error: '',
   });
 
   const updateElementData = (currentKey: string, currentValue: any): void => {
@@ -23,7 +29,7 @@ const APICustomHook = ({ APIEndpoint }: { APIEndpoint: string }) => {
         method: 'GET',
         url: APIEndpoint,
       });
-      updateElementData('elementData', data as RocketsI | DragonsI | ShipsI);
+      updateElementData('elementData', data);
     } catch (err) {
       updateElementData('error', (err as any).message);
     } finally {

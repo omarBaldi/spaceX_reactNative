@@ -5,7 +5,14 @@ import {
 } from '@react-navigation/native';
 import React from 'react';
 import { ScrollView, View, Text } from 'react-native';
-import { DragonsI, MainCategories, RocketsI, ShipsI } from '../../API';
+import {
+  DragonsI,
+  MainCategories,
+  MaincategoryArrayProps,
+  MainCategoryProps,
+  RocketsI,
+  ShipsI,
+} from '../../API';
 import APICustomHook from '../../hooks/API-hook';
 import { CardElement } from '../../molecules/cardElement';
 
@@ -19,8 +26,8 @@ const ElementsScreen = ({ route }: { route: any }) => {
 
   const {
     loading,
-    elementData: currentData,
-    error,
+    error: errorMessage,
+    elementData,
   } = APICustomHook({ APIEndpoint });
 
   const buttonPropsToPass = (currentID: string, category: MainCategories) => {
@@ -39,7 +46,7 @@ const ElementsScreen = ({ route }: { route: any }) => {
   const renderDOMElement = (
     currentElementData: ShipsI | RocketsI | DragonsI,
     currentElementIndex: number
-  ) => {
+  ): JSX.Element | null => {
     switch (currentScreenName) {
       case MainCategories.ROCKETS:
         const {
@@ -99,6 +106,13 @@ const ElementsScreen = ({ route }: { route: any }) => {
     }
   };
 
+  const renderElements = (
+    currentData: MaincategoryArrayProps | null
+  ): JSX.Element | (JSX.Element | null)[] => {
+    if (!currentData || !currentData.length) return <></>;
+    return currentData.map(renderDOMElement);
+  };
+
   return (
     <ScrollView>
       <View
@@ -132,15 +146,17 @@ const ElementsScreen = ({ route }: { route: any }) => {
           <></>
         )}
 
-        {error ? (
+        {errorMessage ? (
           <View>
-            <Text style={{ color: 'white', textAlign: 'center' }}>{error}</Text>
+            <Text style={{ color: 'white', textAlign: 'center' }}>
+              {errorMessage}
+            </Text>
           </View>
         ) : (
           <></>
         )}
 
-        {currentData.length ? currentData.map(renderDOMElement) : <></>}
+        {renderElements(elementData as MaincategoryArrayProps | null)}
       </View>
     </ScrollView>
   );

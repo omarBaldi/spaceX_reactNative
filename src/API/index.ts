@@ -58,6 +58,9 @@ export interface DragonsI {
   //TODO: add the other informations key from the dragons endpoint (see API documentation)
 }
 
+export type MainCategoryProps = ShipsI | RocketsI | DragonsI;
+export type MaincategoryArrayProps = ShipsI[] | RocketsI[] | DragonsI[];
+
 const BASE_API_URL = 'https://api.spacexdata.com/v4';
 
 export const mainCategoriesAPIEndpoint = {
