@@ -3,12 +3,14 @@ import { TextHierarchy } from './dto';
 
 export const createTextStyle = ({
   hierarchy,
+  additionalStyle,
 }: {
   hierarchy: TextHierarchy;
+  additionalStyle: StyleProp<any>;
 }) => {
   return StyleSheet.create({
-    textContainer:
-      hierarchy === TextHierarchy.PRIMARY
+    textContainer: {
+      ...(hierarchy === TextHierarchy.PRIMARY
         ? {
             color: 'white',
             fontWeight: '700',
@@ -17,6 +19,8 @@ export const createTextStyle = ({
         : {
             color: 'lightgrey',
             fontSize: 20,
-          },
+          }),
+      ...additionalStyle,
+    },
   });
 };

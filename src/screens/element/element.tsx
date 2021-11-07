@@ -43,35 +43,68 @@ const ElementScreen = ({ route }: { route: any }) => {
         console.log(current);
         return (
           <View style={{ flex: 1, width: '100%', padding: 30 }}>
-            <CustomText value={rocketName} />
+            <CustomText
+              additionalStyle={{
+                marginBottom: 20,
+              }}
+              value={rocketName}
+            />
             {/* +--------------------------------------------------------- */}
             <CustomText
+              additionalStyle={{ marginBottom: 20 }}
               value={description}
               hierarchy={TextHierarchy.SECONDARY}
             />
             {/* +--------------------------------------------------------- */}
-            <CustomText value='Height' hierarchy={TextHierarchy.SECONDARY} />
-            <CustomText value={rocketHeight} />
-            {/* +--------------------------------------------------------- */}
-            <CustomText value='Diameter' hierarchy={TextHierarchy.SECONDARY} />
-            <CustomText value={`${rocketDiameter} M`} />
-            {/* +--------------------------------------------------------- */}
-            <CustomText value='Mass' hierarchy={TextHierarchy.SECONDARY} />
             <CustomText
+              additionalStyle={{ marginBottom: 20 }}
+              value='Height'
+              hierarchy={TextHierarchy.SECONDARY}
+            />
+            <CustomText
+              additionalStyle={{ marginBottom: 20 }}
+              value={rocketHeight}
+            />
+            {/* +--------------------------------------------------------- */}
+            <CustomText
+              additionalStyle={{ marginBottom: 20 }}
+              value='Diameter'
+              hierarchy={TextHierarchy.SECONDARY}
+            />
+            <CustomText
+              additionalStyle={{ marginBottom: 20 }}
+              value={`${rocketDiameter} M`}
+            />
+            {/* +--------------------------------------------------------- */}
+            <CustomText
+              additionalStyle={{ marginBottom: 20 }}
+              value='Mass'
+              hierarchy={TextHierarchy.SECONDARY}
+            />
+            <CustomText
+              additionalStyle={{ marginBottom: 20 }}
               value={`${new Intl.NumberFormat('en-US').format(Number(kg))} KG`}
             />
             {/* +--------------------------------------------------------- */}
             <CustomText
+              additionalStyle={{ marginBottom: 20 }}
               value='Cost for launch'
               hierarchy={TextHierarchy.SECONDARY}
             />
-            <CustomText value={cost_per_launch} />
+            <CustomText
+              additionalStyle={{ marginBottom: 20 }}
+              value={cost_per_launch}
+            />
             {/* +--------------------------------------------------------- */}
             <CustomText
+              additionalStyle={{ marginBottom: 20 }}
               value='Success rate'
               hierarchy={TextHierarchy.SECONDARY}
             />
-            <CustomText value={success_rate_pct} />
+            <CustomText
+              additionalStyle={{ marginBottom: 20 }}
+              value={success_rate_pct}
+            />
             {/* +--------------------------------------------------------- */}
           </View>
         );

@@ -7,9 +7,11 @@ import { createTextStyle } from './style';
 const CustomText: FC<CustomTextProps> = ({
   value,
   hierarchy,
+  additionalStyle,
 }: CustomTextProps): JSX.Element => {
   const textStyle = createTextStyle({
     hierarchy: hierarchy ?? TextHierarchy.PRIMARY,
+    additionalStyle,
   });
 
   return <Text style={textStyle.textContainer}>{value}</Text>;
