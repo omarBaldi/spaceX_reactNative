@@ -50,7 +50,6 @@ export interface DragonsI {
   crew_capacity: number;
   orbit_duration_yr: number;
   dry_mass_kg: number;
-  dry_mass_lb: number;
   flickr_images: string[];
   first_flight: number;
   diameter: { meters: number };

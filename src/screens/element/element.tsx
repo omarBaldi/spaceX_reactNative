@@ -133,8 +133,122 @@ const ElementScreen = ({ route }: { route: any }) => {
           </View>
         );
       case MainCategories.DRAGONS:
-        const {} = current as DragonsI;
-        return <View></View>;
+        const {
+          name: dragonName,
+          active,
+          crew_capacity,
+          orbit_duration_yr,
+          dry_mass_kg,
+          flickr_images: dragonsImages,
+          first_flight,
+          diameter: { meters: dragonDiameter },
+          height_w_trunk: { meters: dragonHeight },
+        } = current as DragonsI;
+        return (
+          <View style={{ flex: 1, width: '100%', padding: 30 }}>
+            <CustomText
+              additionalStyle={{
+                marginBottom: 20,
+              }}
+              value={dragonName}
+            />
+            {/* +--------------------------------------------------------- */}
+            <View style={{ height: 250, marginBottom: 30 }}>
+              <Swiper
+                autoplay={true}
+                autoplayTimeout={5}
+                dotColor='black'
+                activeDotColor='white'
+                dotStyle={{
+                  marginRight: 5,
+                  marginLeft: 5,
+                }}
+                activeDotStyle={{
+                  borderWidth: 1,
+                  borderColor: 'black',
+                  marginRight: 5,
+                  marginLeft: 5,
+                }}
+                paginationStyle={{
+                  bottom: 5,
+                }}
+              >
+                {dragonsImages.map((currenImageSrc: string, index: number) => {
+                  return (
+                    <View
+                      key={index}
+                      style={{ overflow: 'hidden', borderRadius: 15 }}
+                    >
+                      <Image
+                        key={index}
+                        source={{ uri: currenImageSrc }}
+                        style={{ width: '100%', height: '100%' }}
+                      />
+                    </View>
+                  );
+                })}
+              </Swiper>
+            </View>
+            {/* +--------------------------------------------------------- */}
+            <CustomText
+              value='Crew capacity'
+              hierarchy={TextHierarchy.SECONDARY}
+            />
+            <CustomText
+              additionalStyle={{
+                marginBottom: 20,
+              }}
+              value={crew_capacity}
+            />
+            {/* +--------------------------------------------------------- */}
+
+            <CustomText
+              value='First flight'
+              hierarchy={TextHierarchy.SECONDARY}
+            />
+            <CustomText
+              additionalStyle={{
+                marginBottom: 20,
+              }}
+              value={first_flight}
+            />
+            {/* +--------------------------------------------------------- */}
+            <CustomText
+              value='Orbit duration'
+              hierarchy={TextHierarchy.SECONDARY}
+            />
+            <CustomText
+              additionalStyle={{
+                marginBottom: 20,
+              }}
+              value={`${orbit_duration_yr} yr`}
+            />
+            {/* +--------------------------------------------------------- */}
+            <CustomText value='Mass' hierarchy={TextHierarchy.SECONDARY} />
+            <CustomText
+              additionalStyle={{
+                marginBottom: 20,
+              }}
+              value={`${dry_mass_kg} KG`}
+            />
+            {/* +--------------------------------------------------------- */}
+            <CustomText value='Diameter' hierarchy={TextHierarchy.SECONDARY} />
+            <CustomText
+              additionalStyle={{
+                marginBottom: 20,
+              }}
+              value={`${dragonDiameter} M`}
+            />
+            {/* +--------------------------------------------------------- */}
+            <CustomText value='Height' hierarchy={TextHierarchy.SECONDARY} />
+            <CustomText
+              additionalStyle={{
+                marginBottom: 20,
+              }}
+              value={`${dragonHeight} M`}
+            />
+          </View>
+        );
       case MainCategories.SHIPS:
         const {} = current as ShipsI;
         return <View></View>;
