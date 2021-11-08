@@ -7,14 +7,15 @@ import React from 'react';
 import { ScrollView, View, Text } from 'react-native';
 import {
   DragonsI,
+  LandpadsI,
   MainCategories,
   MaincategoryArrayProps,
-  MainCategoryProps,
   RocketsI,
-  ShipsI,
 } from '../../API';
 import APICustomHook from '../../hooks/API-hook';
 import { CardElement } from '../../molecules/cardElement';
+
+/* TODO: replace unique key index with element ID */
 
 const ElementsScreen = ({ route }: { route: any }) => {
   const navigation: NavigationProp<ParamListBase> = useNavigation();
@@ -36,7 +37,7 @@ const ElementsScreen = ({ route }: { route: any }) => {
       callbackFunc: () => {
         navigation.navigate({
           name: 'SubCategories',
-          params: { currentID, APIEndpoint, category },
+          params: { APIEndpoint: `${APIEndpoint}/${currentID}`, category },
         });
       },
       additionalStyle: { marginTop: 20 },
@@ -44,7 +45,7 @@ const ElementsScreen = ({ route }: { route: any }) => {
   };
 
   const renderDOMElement = (
-    currentElementData: ShipsI | RocketsI | DragonsI,
+    currentElementData: LandpadsI | RocketsI | DragonsI,
     currentElementIndex: number
   ): JSX.Element | null => {
     switch (currentScreenName) {
@@ -52,16 +53,15 @@ const ElementsScreen = ({ route }: { route: any }) => {
         const {
           id: rocketID,
           name: rocketName,
-          description,
+          description: rocketDescription,
           flickr_images: rocketImages,
         } = currentElementData as RocketsI;
         return (
           <CardElement
             key={currentElementIndex}
             {...{
-              id: rocketID,
               name: rocketName,
-              description,
+              description: rocketDescription,
               imageSrc: rocketImages[0],
               buttonData: buttonPropsToPass(rocketID, MainCategories.ROCKETS),
             }}
@@ -72,32 +72,43 @@ const ElementsScreen = ({ route }: { route: any }) => {
           id: dragonID,
           name: dragonName,
           flickr_images: dragonImages,
+          description: dragonDescription,
         } = currentElementData as DragonsI;
         return (
           <CardElement
             key={currentElementIndex}
             {...{
-              id: dragonID,
               name: dragonName,
+              description: dragonDescription,
               imageSrc: dragonImages[0],
               buttonData: buttonPropsToPass(dragonID, MainCategories.DRAGONS),
             }}
           />
         );
-      case MainCategories.SHIPS:
+      case MainCategories.LANDPADS:
         const {
-          id: shipID,
-          name: shipName,
-          image,
-        } = currentElementData as ShipsI;
+          id: landpadID,
+          full_name,
+          name: landpadName,
+          status,
+          type,
+          locality,
+          region,
+          landing_attempts,
+          landing_successes,
+          wikipedia,
+          details: landpadDescription,
+          launches,
+          images: { large: landpadImages },
+        } = currentElementData as LandpadsI;
         return (
           <CardElement
             key={currentElementIndex}
             {...{
-              id: shipID,
-              name: shipName,
-              imageSrc: image,
-              buttonData: buttonPropsToPass(shipID, MainCategories.SHIPS),
+              name: landpadName,
+              description: landpadDescription,
+              imageSrc: landpadImages[0],
+              buttonData: buttonPropsToPass(landpadID, MainCategories.LANDPADS),
             }}
           />
         );

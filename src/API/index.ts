@@ -1,28 +1,10 @@
-import { shipsAPI } from './ships/ships';
-
 export enum MainCategories {
   ROCKETS = 'Rockets',
   DRAGONS = 'Dragons',
-  SHIPS = 'Ships',
+  LANDPADS = 'Landpads',
 }
 
 /* Elements Interfaces */
-
-export interface ShipsI {
-  id: string;
-  link: string;
-  home_port: string;
-  type: string;
-  model: string;
-  name: string;
-  active: boolean;
-  launches: string[];
-  roles: string[];
-  mass_kg: number;
-  year_built: number;
-  image?: string;
-}
-
 export interface RocketsI {
   id: string;
   name: string;
@@ -45,6 +27,7 @@ export interface RocketsI {
 export interface DragonsI {
   id: string;
   name: string;
+  description: string;
   type: string;
   active: boolean;
   crew_capacity: number;
@@ -57,28 +40,35 @@ export interface DragonsI {
   //TODO: add the other informations key from the dragons endpoint (see API documentation)
 }
 
-export type MainCategoryProps = ShipsI | RocketsI | DragonsI;
-export type MaincategoryArrayProps = ShipsI[] | RocketsI[] | DragonsI[];
+export interface LandpadsI {
+  id: string;
+  full_name: string;
+  name: string;
+  status: string;
+  type: string;
+  locality: string;
+  region: string;
+  landing_attempts: number;
+  landing_successes: string;
+  wikipedia: string;
+  details: string;
+  launches: string[];
+  images: { large: string[] };
+}
 
-const BASE_API_URL = 'https://api.spacexdata.com/v4';
+export type MainCategoryProps = RocketsI | DragonsI | LandpadsI;
+export type MaincategoryArrayProps = RocketsI[] | DragonsI[] | LandpadsI[];
+
+export const BASE_API_URL = 'https://api.spacexdata.com/v4';
 
 export const mainCategoriesAPIEndpoint = {
   [MainCategories.ROCKETS]: `${BASE_API_URL}/rockets`,
   [MainCategories.DRAGONS]: `${BASE_API_URL}/dragons`,
-  [MainCategories.SHIPS]: `${BASE_API_URL}/ships`,
+  [MainCategories.LANDPADS]: `${BASE_API_URL}/landpads`,
 };
 
 export const getImagePathRequire = {
   [MainCategories.ROCKETS]: require('../assets/images/rocket.jpg'),
   [MainCategories.DRAGONS]: require('../assets/images/dragon.jpg'),
-  [MainCategories.SHIPS]: require('../assets/images/launch.jpg'),
+  [MainCategories.LANDPADS]: require('../assets/images/launch.jpg'),
 };
-
-export const MainCategoriesAPI = {
-  ROCKETS_API_URL: `${BASE_API_URL}/rockets`,
-  DRAGONS_API_URL: `${BASE_API_URL}/dragons`,
-  SHIPS_API_URL: `${BASE_API_URL}/ships`,
-  LAUNCHES_API_URL: `${BASE_API_URL}/launches`,
-};
-
-export { shipsAPI, BASE_API_URL };

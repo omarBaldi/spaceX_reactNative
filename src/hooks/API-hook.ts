@@ -29,6 +29,7 @@ const APICustomHook = ({ APIEndpoint }: { APIEndpoint: string }) => {
         method: 'GET',
         url: APIEndpoint,
       });
+      console.log(data);
       updateElementData('elementData', data);
     } catch (err) {
       updateElementData('error', (err as any).message);

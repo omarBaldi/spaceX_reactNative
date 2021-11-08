@@ -4,7 +4,6 @@ type CardElementProps = {
   imageSrc?: string;
   name: string;
   description?: string;
-  id: string;
   buttonData: CustomButtonProps;
 };
 

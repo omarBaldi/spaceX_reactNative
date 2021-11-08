@@ -2,10 +2,10 @@ import React from 'react';
 import { View, Text, Image, ScrollView } from 'react-native';
 import {
   DragonsI,
+  LandpadsI,
   MainCategories,
   MainCategoryProps,
   RocketsI,
-  ShipsI,
 } from '../../API';
 import { CustomText } from '../../atoms/text';
 import { TextHierarchy } from '../../atoms/text/dto';
@@ -14,17 +14,15 @@ import Swiper from 'react-native-swiper';
 
 const ElementScreen = ({ route }: { route: any }) => {
   const {
-    currentID,
     APIEndpoint,
     category,
-  }: { currentID: string; APIEndpoint: string; category: MainCategories } =
-    route.params;
+  }: { APIEndpoint: string; category: MainCategories } = route.params;
 
   const {
     loading,
     error: errorMessage,
     elementData,
-  } = APICustomHook({ APIEndpoint: `${APIEndpoint}/${currentID}` });
+  } = APICustomHook({ APIEndpoint });
 
   const renderElementData = (
     current: MainCategoryProps
@@ -143,6 +141,7 @@ const ElementScreen = ({ route }: { route: any }) => {
           first_flight,
           diameter: { meters: dragonDiameter },
           height_w_trunk: { meters: dragonHeight },
+          description: dragonDescription,
         } = current as DragonsI;
         return (
           <View style={{ flex: 1, width: '100%', padding: 30 }}>
@@ -189,6 +188,13 @@ const ElementScreen = ({ route }: { route: any }) => {
                 })}
               </Swiper>
             </View>
+            {/* +--------------------------------------------------------- */}
+
+            <CustomText
+              additionalStyle={{ marginBottom: 20 }}
+              value={dragonDescription}
+              hierarchy={TextHierarchy.SECONDARY}
+            />
             {/* +--------------------------------------------------------- */}
             <CustomText
               value='Crew capacity'
@@ -249,8 +255,8 @@ const ElementScreen = ({ route }: { route: any }) => {
             />
           </View>
         );
-      case MainCategories.SHIPS:
-        const {} = current as ShipsI;
+      case MainCategories.LANDPADS:
+        const {} = current as LandpadsI;
         return <View></View>;
       default:
         return null;

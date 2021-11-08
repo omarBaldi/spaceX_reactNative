@@ -1,9 +1,7 @@
 import React from 'react';
 import { Image } from 'react-native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { HomepageScreen } from '../../screens/homepage';
-import { ElementsScreen } from '../../screens/elements';
-import { ElementScreen } from '../../screens/element';
+import { ElementScreen, ElementsScreen, HomepageScreen } from '../../screens';
 
 const Stack = createNativeStackNavigator();
 
