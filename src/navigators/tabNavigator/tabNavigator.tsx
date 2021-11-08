@@ -18,7 +18,6 @@ const TabNavigator: FC<TabNavigatorProps> = ({
     if (navigationState) {
       for (const element of navigationState.routes) {
         if (element?.state?.index) {
-          const indexGreaterThan1: boolean = element.state.index > 1;
           allowSwiping = false;
           break;
         }
