@@ -4,7 +4,7 @@ import {
   useNavigation,
 } from '@react-navigation/native';
 import React from 'react';
-import { ScrollView, View, Text } from 'react-native';
+import { ScrollView, View, Text, ActivityIndicator } from 'react-native';
 import {
   CrewI,
   DragonsI,
@@ -169,10 +169,15 @@ const ElementsScreen = ({ route }: { route: any }) => {
         </Text>
 
         {loading ? (
-          <View>
-            <Text style={{ color: 'white', textAlign: 'center' }}>
-              Loading...
-            </Text>
+          <View
+            style={{
+              flex: 1,
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}
+          >
+            <ActivityIndicator size='large' color='white' />
           </View>
         ) : (
           <></>
@@ -188,6 +193,7 @@ const ElementsScreen = ({ route }: { route: any }) => {
           <></>
         )}
 
+        {/* TODO: use "FlatList" react-native built-in core */}
         {renderElements(elementData as MaincategoryArrayProps | null)}
       </View>
     </ScrollView>

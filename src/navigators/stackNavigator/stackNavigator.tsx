@@ -22,7 +22,7 @@ const DefaultStackNavigator = ({
         name={currentCategory}
         component={HomepageScreen}
         options={{
-          gestureEnabled: false,
+          gestureEnabled: true,
         }}
       />
       <Stack.Screen

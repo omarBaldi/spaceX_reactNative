@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, Image, ScrollView } from 'react-native';
+import { View, Text, Image, ScrollView, ActivityIndicator } from 'react-native';
 import {
   DragonsI,
   LandpadsI,
@@ -116,7 +116,7 @@ const ElementScreen = ({ route }: { route: any }) => {
             />
             <CustomText
               additionalStyle={{ marginBottom: 20 }}
-              value={cost_per_launch}
+              value={`${Intl.NumberFormat('en-US').format(cost_per_launch)} $`}
             />
             {/* +--------------------------------------------------------- */}
             <CustomText
@@ -125,7 +125,7 @@ const ElementScreen = ({ route }: { route: any }) => {
             />
             <CustomText
               additionalStyle={{ marginBottom: 20 }}
-              value={success_rate_pct}
+              value={`${success_rate_pct} %`}
             />
             {/* +--------------------------------------------------------- */}
           </View>
@@ -375,10 +375,15 @@ const ElementScreen = ({ route }: { route: any }) => {
       }}
     >
       {loading ? (
-        <View>
-          <Text style={{ color: 'white', textAlign: 'center' }}>
-            Loading...
-          </Text>
+        <View
+          style={{
+            flex: 1,
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+          }}
+        >
+          <ActivityIndicator size='large' color='white' />
         </View>
       ) : (
         <></>

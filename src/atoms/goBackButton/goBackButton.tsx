@@ -10,7 +10,6 @@ import { Pressable, View } from 'react-native';
 
 const GoBackButton: FC<{}> = () => {
   const navigation: NavigationProp<ParamListBase> = useNavigation();
-  console.log(navigation);
 
   return (
     <Pressable
