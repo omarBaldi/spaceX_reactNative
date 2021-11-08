@@ -132,7 +132,6 @@ const ElementsScreen = ({ route }: { route: any }) => {
             }}
           />
         );
-        return <></>;
       default:
         return null;
     }

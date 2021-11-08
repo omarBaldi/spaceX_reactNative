@@ -12,10 +12,20 @@ const TabNavigator: FC<TabNavigatorProps> = ({
   const navigationState = useNavigationState((state) => state);
 
   const shouldEnableSwipingOption = (): boolean => {
-    return navigationState?.routes?.every((currentRoute) => {
-      const index: number | undefined = currentRoute?.state?.index;
-      return !index;
-    });
+    /* If there is at least one index greater than 1 should set to swiping false */
+    let allowSwiping: boolean = true;
+
+    if (navigationState) {
+      for (const element of navigationState.routes) {
+        if (element?.state?.index) {
+          const indexGreaterThan1: boolean = element.state.index > 1;
+          allowSwiping = false;
+          break;
+        }
+      }
+    }
+
+    return allowSwiping;
   };
 
   return (
