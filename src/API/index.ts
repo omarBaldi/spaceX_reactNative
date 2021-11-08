@@ -2,6 +2,7 @@ export enum MainCategories {
   ROCKETS = 'Rockets',
   DRAGONS = 'Dragons',
   LANDPADS = 'Landpads',
+  CREW = 'Crew',
 }
 
 /* Elements Interfaces */
@@ -56,8 +57,21 @@ export interface LandpadsI {
   images: { large: string[] };
 }
 
-export type MainCategoryProps = RocketsI | DragonsI | LandpadsI;
-export type MaincategoryArrayProps = RocketsI[] | DragonsI[] | LandpadsI[];
+export interface CrewI {
+  id: string;
+  name: string;
+  agency: string;
+  image: string;
+  wikipedia: string;
+  launches: string[];
+}
+
+export type MainCategoryProps = CrewI | RocketsI | DragonsI | LandpadsI;
+export type MaincategoryArrayProps =
+  | CrewI[]
+  | RocketsI[]
+  | DragonsI[]
+  | LandpadsI[];
 
 export const BASE_API_URL = 'https://api.spacexdata.com/v4';
 
@@ -65,10 +79,12 @@ export const mainCategoriesAPIEndpoint = {
   [MainCategories.ROCKETS]: `${BASE_API_URL}/rockets`,
   [MainCategories.DRAGONS]: `${BASE_API_URL}/dragons`,
   [MainCategories.LANDPADS]: `${BASE_API_URL}/landpads`,
+  [MainCategories.CREW]: `${BASE_API_URL}/crew`,
 };
 
 export const getImagePathRequire = {
   [MainCategories.ROCKETS]: require('../assets/images/rocket.jpg'),
   [MainCategories.DRAGONS]: require('../assets/images/dragon.jpg'),
   [MainCategories.LANDPADS]: require('../assets/images/launch.jpg'),
+  [MainCategories.CREW]: require('../assets/images/crew.jpeg'),
 };

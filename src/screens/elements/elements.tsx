@@ -6,6 +6,7 @@ import {
 import React from 'react';
 import { ScrollView, View, Text } from 'react-native';
 import {
+  CrewI,
   DragonsI,
   LandpadsI,
   MainCategories,
@@ -45,7 +46,7 @@ const ElementsScreen = ({ route }: { route: any }) => {
   };
 
   const renderDOMElement = (
-    currentElementData: LandpadsI | RocketsI | DragonsI,
+    currentElementData: LandpadsI | RocketsI | DragonsI | CrewI,
     currentElementIndex: number
   ): JSX.Element | null => {
     switch (currentScreenName) {
@@ -112,6 +113,26 @@ const ElementsScreen = ({ route }: { route: any }) => {
             }}
           />
         );
+      case MainCategories.CREW:
+        const {
+          id: crewID,
+          name: crewName,
+          agency,
+          image: crewPortait,
+          wikipedia: wikipediaCrewLink,
+          launches: crewLaunches,
+        } = currentElementData as CrewI;
+        return (
+          <CardElement
+            key={currentElementIndex}
+            {...{
+              name: crewName,
+              imageSrc: crewPortait,
+              buttonData: buttonPropsToPass(crewID, MainCategories.CREW),
+            }}
+          />
+        );
+        return <></>;
       default:
         return null;
     }

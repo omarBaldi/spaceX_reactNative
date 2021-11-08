@@ -256,8 +256,110 @@ const ElementScreen = ({ route }: { route: any }) => {
           </View>
         );
       case MainCategories.LANDPADS:
-        const {} = current as LandpadsI;
-        return <View></View>;
+        const {
+          full_name,
+          name: landpadName,
+          status,
+          type,
+          locality,
+          region,
+          landing_attempts,
+          landing_successes,
+          wikipedia,
+          details: landpadDescription,
+          launches,
+          images: { large: landpadImages },
+        } = current as LandpadsI;
+        return (
+          <View style={{ flex: 1, width: '100%', padding: 30 }}>
+            <CustomText
+              additionalStyle={{
+                marginBottom: 20,
+              }}
+              value={landpadName}
+            />
+            {/* +--------------------------------------------------------- */}
+            <View style={{ height: 250, marginBottom: 30 }}>
+              <Swiper
+                autoplay={true}
+                autoplayTimeout={5}
+                dotColor='black'
+                activeDotColor='white'
+                dotStyle={{
+                  marginRight: 5,
+                  marginLeft: 5,
+                }}
+                activeDotStyle={{
+                  borderWidth: 1,
+                  borderColor: 'black',
+                  marginRight: 5,
+                  marginLeft: 5,
+                }}
+                paginationStyle={{
+                  bottom: 5,
+                }}
+              >
+                {landpadImages.map((currenImageSrc: string, index: number) => {
+                  return (
+                    <View
+                      key={index}
+                      style={{ overflow: 'hidden', borderRadius: 15 }}
+                    >
+                      <Image
+                        key={index}
+                        source={{ uri: currenImageSrc }}
+                        style={{ width: '100%', height: '100%' }}
+                      />
+                    </View>
+                  );
+                })}
+              </Swiper>
+            </View>
+            {/* +--------------------------------------------------------- */}
+
+            <CustomText
+              additionalStyle={{ marginBottom: 20 }}
+              value={landpadDescription}
+              hierarchy={TextHierarchy.SECONDARY}
+            />
+            {/* +--------------------------------------------------------- */}
+            <CustomText value='Type' hierarchy={TextHierarchy.SECONDARY} />
+            <CustomText additionalStyle={{ marginBottom: 20 }} value={type} />
+            {/* +--------------------------------------------------------- */}
+            <CustomText value='Locality' hierarchy={TextHierarchy.SECONDARY} />
+            <CustomText
+              additionalStyle={{ marginBottom: 20 }}
+              value={locality}
+            />
+            {/* +--------------------------------------------------------- */}
+            <CustomText value='Region' hierarchy={TextHierarchy.SECONDARY} />
+            <CustomText additionalStyle={{ marginBottom: 20 }} value={region} />
+            {/* +--------------------------------------------------------- */}
+            <CustomText value='Launches' hierarchy={TextHierarchy.SECONDARY} />
+            <CustomText
+              additionalStyle={{ marginBottom: 20 }}
+              value={launches.length}
+            />
+            {/* +--------------------------------------------------------- */}
+            <CustomText
+              value='Landing attempts'
+              hierarchy={TextHierarchy.SECONDARY}
+            />
+            <CustomText
+              additionalStyle={{ marginBottom: 20 }}
+              value={landing_attempts}
+            />
+            {/* +--------------------------------------------------------- */}
+            <CustomText
+              value='Landing Successes'
+              hierarchy={TextHierarchy.SECONDARY}
+            />
+            <CustomText
+              additionalStyle={{ marginBottom: 20 }}
+              value={landing_successes}
+            />
+          </View>
+        );
       default:
         return null;
     }
