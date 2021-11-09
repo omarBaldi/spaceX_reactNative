@@ -1,5 +1,13 @@
 import React from 'react';
-import { View, Text, Image, ScrollView, ActivityIndicator } from 'react-native';
+import {
+  View,
+  Text,
+  Image,
+  ScrollView,
+  ActivityIndicator,
+  Button,
+  Linking,
+} from 'react-native';
 import {
   DragonsI,
   LandpadsI,
@@ -11,6 +19,8 @@ import { CustomText } from '../../atoms/text';
 import { TextHierarchy } from '../../atoms/text/dto';
 import APICustomHook from '../../hooks/API-hook';
 import Swiper from 'react-native-swiper';
+import { CustomButton } from '../../atoms/button';
+import { ButtonSize } from '../../atoms/button/dto';
 
 const ElementScreen = ({ route }: { route: any }) => {
   const {
@@ -39,15 +49,30 @@ const ElementScreen = ({ route }: { route: any }) => {
           country,
           success_rate_pct,
           flickr_images,
+          wikipedia: rocketExternalLink,
         } = current as RocketsI;
         return (
           <View style={{ flex: 1, width: '100%', padding: 30 }}>
-            <CustomText
-              additionalStyle={{
+            <View
+              style={{
+                display: 'flex',
+                flexDirection: 'row',
+                justifyContent: 'space-between',
                 marginBottom: 20,
               }}
-              value={rocketName}
-            />
+            >
+              <CustomText
+                additionalStyle={{
+                  marginBottom: 20,
+                }}
+                value={rocketName}
+              />
+              <CustomButton
+                title='Go to link'
+                size={ButtonSize.MEDIUM}
+                callbackFunc={() => Linking.openURL(rocketExternalLink)}
+              />
+            </View>
             {/* +--------------------------------------------------------- */}
             <View style={{ height: 250, marginBottom: 30 }}>
               <Swiper
@@ -142,15 +167,30 @@ const ElementScreen = ({ route }: { route: any }) => {
           diameter: { meters: dragonDiameter },
           height_w_trunk: { meters: dragonHeight },
           description: dragonDescription,
+          wikipedia: dragonExternalLink,
         } = current as DragonsI;
         return (
           <View style={{ flex: 1, width: '100%', padding: 30 }}>
-            <CustomText
-              additionalStyle={{
+            <View
+              style={{
+                display: 'flex',
+                flexDirection: 'row',
+                justifyContent: 'space-between',
                 marginBottom: 20,
               }}
-              value={dragonName}
-            />
+            >
+              <CustomText
+                additionalStyle={{
+                  marginBottom: 20,
+                }}
+                value={dragonName}
+              />
+              <CustomButton
+                title='Go to link'
+                size={ButtonSize.MEDIUM}
+                callbackFunc={() => Linking.openURL(dragonExternalLink)}
+              />
+            </View>
             {/* +--------------------------------------------------------- */}
             <View style={{ height: 250, marginBottom: 30 }}>
               <Swiper
@@ -265,19 +305,33 @@ const ElementScreen = ({ route }: { route: any }) => {
           region,
           landing_attempts,
           landing_successes,
-          wikipedia,
+          wikipedia: landpadExternalLink,
           details: landpadDescription,
           launches,
           images: { large: landpadImages },
         } = current as LandpadsI;
         return (
           <View style={{ flex: 1, width: '100%', padding: 30 }}>
-            <CustomText
-              additionalStyle={{
+            <View
+              style={{
+                display: 'flex',
+                flexDirection: 'row',
+                justifyContent: 'space-between',
                 marginBottom: 20,
               }}
-              value={landpadName}
-            />
+            >
+              <CustomText
+                additionalStyle={{
+                  marginBottom: 20,
+                }}
+                value={landpadName}
+              />
+              <CustomButton
+                title='Go to link'
+                size={ButtonSize.MEDIUM}
+                callbackFunc={() => Linking.openURL(landpadExternalLink)}
+              />
+            </View>
             {/* +--------------------------------------------------------- */}
             <View style={{ height: 250, marginBottom: 30 }}>
               <Swiper

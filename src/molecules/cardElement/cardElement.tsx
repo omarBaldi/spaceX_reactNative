@@ -2,6 +2,7 @@ import React, { FC } from 'react';
 import { View, Image, Text } from 'react-native';
 import { CardElementProps } from '.';
 import { CustomButton } from '../../atoms/button';
+import { ButtonSize } from '../../atoms/button/dto';
 
 const CardElement: FC<CardElementProps> = ({
   imageSrc,
@@ -71,7 +72,7 @@ const CardElement: FC<CardElementProps> = ({
         ) : (
           <></>
         )}
-        <CustomButton {...buttonData} />
+        <CustomButton {...buttonData} size={ButtonSize.LARGE} />
       </View>
     </View>
   );

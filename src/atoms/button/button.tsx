@@ -5,10 +5,11 @@ import { createButtonStyle } from './style';
 
 const CustomButton: FC<CustomButtonProps> = ({
   title,
+  size,
   additionalStyle,
   callbackFunc,
 }: CustomButtonProps): JSX.Element => {
-  const buttonStyle = createButtonStyle(additionalStyle);
+  const buttonStyle = createButtonStyle(additionalStyle, size);
 
   return (
     <Pressable onPress={callbackFunc}>

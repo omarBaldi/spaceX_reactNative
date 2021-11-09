@@ -1,8 +1,8 @@
 import React, { FC } from 'react';
-import { TabNavigatorProps } from '.';
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
-import { TabScreenI } from './dto';
 import { useNavigationState } from '@react-navigation/native';
+import { TabNavigatorProps } from '.';
+import { TabScreenI } from './dto';
 
 const Tab = createMaterialTopTabNavigator();
 

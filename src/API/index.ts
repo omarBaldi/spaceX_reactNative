@@ -38,6 +38,7 @@ export interface DragonsI {
   first_flight: number;
   diameter: { meters: number };
   height_w_trunk: { meters: number };
+  wikipedia: string;
   //TODO: add the other informations key from the dragons endpoint (see API documentation)
 }
 
