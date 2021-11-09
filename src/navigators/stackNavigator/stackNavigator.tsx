@@ -13,16 +13,12 @@ const DefaultStackNavigator = ({
   rest: any;
 }): JSX.Element => {
   return (
-    <Stack.Navigator
-      screenOptions={{
-        headerShown: false,
-      }}
-    >
+    <Stack.Navigator>
       <Stack.Screen
         name={currentCategory}
         component={HomepageScreen}
         options={{
-          gestureEnabled: true,
+          headerShown: false,
         }}
       />
       <Stack.Screen
@@ -31,6 +27,8 @@ const DefaultStackNavigator = ({
           headerTitle: '',
           headerStyle: {
             backgroundColor: '#080808',
+            borderWidth: 1,
+            borderColor: 'red',
           },
           headerTintColor: 'white',
           headerBackTitle: `Back to homepage`,
@@ -40,7 +38,6 @@ const DefaultStackNavigator = ({
               style={{ height: 40, width: 40 }}
             />
           ),
-          gestureEnabled: false,
         })}
         name='Category'
         component={ElementsScreen}
@@ -62,7 +59,6 @@ const DefaultStackNavigator = ({
               style={{ height: 40, width: 40 }}
             />
           ),
-          gestureEnabled: false,
         }}
       />
     </Stack.Navigator>
