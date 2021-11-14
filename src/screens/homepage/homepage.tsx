@@ -28,6 +28,7 @@ const HomepageScreen = ({
 
   return (
     <PressableElement
+      additionalStyle={{ flex: 1 }}
       callbackPressFunction={() =>
         navigation.navigate({
           name: 'Category',

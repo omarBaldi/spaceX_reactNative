@@ -5,8 +5,16 @@ import { PressableElementProps } from '.';
 const PressableElement: FC<PressableElementProps> = ({
   callbackPressFunction,
   content,
+  additionalStyle,
 }: PressableElementProps) => {
-  return <Pressable onPress={callbackPressFunction}>{content}</Pressable>;
+  return (
+    <Pressable
+      onPress={callbackPressFunction}
+      style={{ ...(additionalStyle ?? {}) }}
+    >
+      {content}
+    </Pressable>
+  );
 };
 
 export default PressableElement;
