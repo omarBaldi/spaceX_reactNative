@@ -2,62 +2,46 @@ import React from 'react';
 import { Image } from 'react-native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { ElementScreen, ElementsScreen, HomepageScreen } from '../../screens';
+import { headerParams } from './headerParams';
 
 const Stack = createNativeStackNavigator();
 
+export const defaultHeaderRightElement: JSX.Element = (
+  <Image
+    source={require('../../assets/images/spaceX_logo_black.jpeg')}
+    style={{ height: 40, width: 40 }}
+  />
+);
+
 const DefaultStackNavigator = ({
   currentCategory,
-  ...rest
 }: {
   currentCategory: string;
-  rest: any;
 }): JSX.Element => {
   return (
     <Stack.Navigator>
       <Stack.Screen
         name={currentCategory}
         component={HomepageScreen}
-        options={{
-          headerShown: false,
-        }}
+        options={headerParams({ headerShown: false })}
       />
       <Stack.Screen
-        options={(...props) => ({
-          headerShown: true,
-          headerTitle: '',
-          headerStyle: {
-            backgroundColor: '#080808',
-          },
-          headerTintColor: 'white',
-          headerBackTitle: `Back to homepage`,
-          headerRight: () => (
-            <Image
-              source={require('../../assets/images/spaceX_logo_black.jpeg')}
-              style={{ height: 40, width: 40 }}
-            />
-          ),
-        })}
         name='Category'
         component={ElementsScreen}
+        options={headerParams({
+          headerShown: true,
+          headerBackTitle: `Back to homepage`,
+          headerRightComponent: defaultHeaderRightElement,
+        })}
       />
       <Stack.Screen
         name='SubCategories'
         component={ElementScreen}
-        options={{
+        options={headerParams({
           headerShown: true,
-          headerTitle: '',
-          headerStyle: {
-            backgroundColor: '#080808',
-          },
-          headerTintColor: 'white',
           headerBackTitle: `Back to ${currentCategory}`,
-          headerRight: () => (
-            <Image
-              source={require('../../assets/images/spaceX_logo_black.jpeg')}
-              style={{ height: 40, width: 40 }}
-            />
-          ),
-        }}
+          headerRightComponent: defaultHeaderRightElement,
+        })}
       />
     </Stack.Navigator>
   );

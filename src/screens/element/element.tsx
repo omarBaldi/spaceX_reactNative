@@ -449,7 +449,6 @@ const ElementScreen = ({ route }: { route: any }) => {
               value={crewLaunches.length}
             />
             {/* +--------------------------------------------------------- */}
-
             <Pressable
               onPress={() => Linking.openURL(crewExternalLink)}
               style={{ overflow: 'hidden', borderRadius: 10 }}
@@ -464,10 +463,8 @@ const ElementScreen = ({ route }: { route: any }) => {
                 }}
               />
             </Pressable>
-            {/* +--------------------------------------------------------- */}
           </View>
         );
-
       default:
         return null;
     }
