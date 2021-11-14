@@ -27,8 +27,6 @@ const DefaultStackNavigator = ({
           headerTitle: '',
           headerStyle: {
             backgroundColor: '#080808',
-            borderWidth: 1,
-            borderColor: 'red',
           },
           headerTintColor: 'white',
           headerBackTitle: `Back to homepage`,

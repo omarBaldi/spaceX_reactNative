@@ -5,10 +5,12 @@ import {
   Image,
   ScrollView,
   ActivityIndicator,
-  Button,
   Linking,
+  ImageBackground,
+  Pressable,
 } from 'react-native';
 import {
+  CrewI,
   DragonsI,
   LandpadsI,
   MainCategories,
@@ -414,6 +416,58 @@ const ElementScreen = ({ route }: { route: any }) => {
             />
           </View>
         );
+      case MainCategories.CREW:
+        const {
+          name: crewName,
+          agency,
+          image: crewImage,
+          wikipedia: crewExternalLink,
+          launches: crewLaunches,
+        } = current as CrewI;
+
+        return (
+          <View
+            style={{
+              flex: 1,
+              width: '100%',
+              padding: 30,
+            }}
+          >
+            <CustomText
+              additionalStyle={{
+                marginBottom: 20,
+              }}
+              value={crewName}
+            />
+            {/* +--------------------------------------------------------- */}
+            <CustomText value='Agency' hierarchy={TextHierarchy.SECONDARY} />
+            <CustomText additionalStyle={{ marginBottom: 20 }} value={agency} />
+            {/* +--------------------------------------------------------- */}
+            <CustomText value='Launches' hierarchy={TextHierarchy.SECONDARY} />
+            <CustomText
+              additionalStyle={{ marginBottom: 20 }}
+              value={crewLaunches.length}
+            />
+            {/* +--------------------------------------------------------- */}
+
+            <Pressable
+              onPress={() => Linking.openURL(crewExternalLink)}
+              style={{ overflow: 'hidden', borderRadius: 10 }}
+            >
+              <ImageBackground
+                source={{ uri: crewImage }}
+                resizeMode='cover'
+                style={{
+                  flex: 1,
+                  width: '100%',
+                  height: 450,
+                }}
+              />
+            </Pressable>
+            {/* +--------------------------------------------------------- */}
+          </View>
+        );
+
       default:
         return null;
     }
@@ -456,7 +510,7 @@ const ElementScreen = ({ route }: { route: any }) => {
       {!elementData || !Object.keys(elementData).length ? (
         <></>
       ) : (
-        <ScrollView>
+        <ScrollView style={{ width: '100%' }}>
           {renderElementData(elementData as MainCategoryProps)}
         </ScrollView>
       )}
