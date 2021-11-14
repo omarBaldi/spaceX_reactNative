@@ -13,10 +13,10 @@ import {
   MaincategoryArrayProps,
   RocketsI,
 } from '../../API';
-import APICustomHook from '../../hooks/API-hook';
+import { Spinner } from '../../atoms/spinner';
+import { CustomText } from '../../atoms/text';
+import useFetch from '../../hooks/useFetch';
 import { CardElement } from '../../molecules/cardElement';
-
-/* TODO: replace unique key index with element ID */
 
 const ElementsScreen = ({ route }: { route: any }) => {
   const navigation: NavigationProp<ParamListBase> = useNavigation();
@@ -30,7 +30,7 @@ const ElementsScreen = ({ route }: { route: any }) => {
     loading,
     error: errorMessage,
     elementData,
-  } = APICustomHook({ APIEndpoint });
+  } = useFetch({ APIEndpoint });
 
   const buttonPropsToPass = (currentID: string, category: MainCategories) => {
     return {
@@ -47,7 +47,7 @@ const ElementsScreen = ({ route }: { route: any }) => {
 
   const renderDOMElement = (
     currentElementData: LandpadsI | RocketsI | DragonsI | CrewI,
-    currentElementIndex: number
+    _: number
   ): JSX.Element | null => {
     switch (currentScreenName) {
       case MainCategories.ROCKETS:
@@ -59,7 +59,7 @@ const ElementsScreen = ({ route }: { route: any }) => {
         } = currentElementData as RocketsI;
         return (
           <CardElement
-            key={currentElementIndex}
+            key={rocketID}
             {...{
               name: rocketName,
               description: rocketDescription,
@@ -77,7 +77,7 @@ const ElementsScreen = ({ route }: { route: any }) => {
         } = currentElementData as DragonsI;
         return (
           <CardElement
-            key={currentElementIndex}
+            key={dragonID}
             {...{
               name: dragonName,
               description: dragonDescription,
@@ -89,22 +89,13 @@ const ElementsScreen = ({ route }: { route: any }) => {
       case MainCategories.LANDPADS:
         const {
           id: landpadID,
-          full_name,
           name: landpadName,
-          status,
-          type,
-          locality,
-          region,
-          landing_attempts,
-          landing_successes,
-          wikipedia,
           details: landpadDescription,
-          launches,
           images: { large: landpadImages },
         } = currentElementData as LandpadsI;
         return (
           <CardElement
-            key={currentElementIndex}
+            key={landpadID}
             {...{
               name: landpadName,
               description: landpadDescription,
@@ -117,14 +108,11 @@ const ElementsScreen = ({ route }: { route: any }) => {
         const {
           id: crewID,
           name: crewName,
-          agency,
           image: crewPortait,
-          wikipedia: wikipediaCrewLink,
-          launches: crewLaunches,
         } = currentElementData as CrewI;
         return (
           <CardElement
-            key={currentElementIndex}
+            key={crewID}
             {...{
               name: crewName,
               imageSrc: crewPortait,
@@ -156,16 +144,10 @@ const ElementsScreen = ({ route }: { route: any }) => {
           minHeight: '100%',
         }}
       >
-        <Text
-          style={{
-            color: 'white',
-            fontWeight: '700',
-            fontSize: 45,
-            marginBottom: 30,
-          }}
-        >
-          {currentScreenName}
-        </Text>
+        <CustomText
+          value={currentScreenName}
+          additionalStyle={{ fontSize: 45, marginBottom: 30 }}
+        />
 
         {loading ? (
           <View
@@ -176,18 +158,17 @@ const ElementsScreen = ({ route }: { route: any }) => {
               alignItems: 'center',
             }}
           >
-            <ActivityIndicator size='large' color='white' />
+            <Spinner />
           </View>
         ) : (
           <></>
         )}
 
         {errorMessage ? (
-          <View>
-            <Text style={{ color: 'white', textAlign: 'center' }}>
-              {errorMessage}
-            </Text>
-          </View>
+          <CustomText
+            value={errorMessage}
+            additionalStyle={{ textAlign: 'center' }}
+          />
         ) : (
           <></>
         )}

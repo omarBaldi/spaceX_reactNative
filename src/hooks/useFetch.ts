@@ -8,7 +8,7 @@ export interface APIDataI {
   error: string;
 }
 
-const APICustomHook = ({ APIEndpoint }: { APIEndpoint: string }) => {
+const UseFetch = ({ APIEndpoint }: { APIEndpoint: string }) => {
   const [currentElementData, setCurrentElementData] = useState<APIDataI>({
     loading: false,
     elementData: null,
@@ -45,4 +45,4 @@ const APICustomHook = ({ APIEndpoint }: { APIEndpoint: string }) => {
   return { loading, elementData, error };
 };
 
-export default APICustomHook;
+export default UseFetch;

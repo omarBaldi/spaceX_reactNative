@@ -19,10 +19,11 @@ import {
 } from '../../API';
 import { CustomText } from '../../atoms/text';
 import { TextHierarchy } from '../../atoms/text/dto';
-import APICustomHook from '../../hooks/API-hook';
+import useFetch from '../../hooks/useFetch';
 import Swiper from 'react-native-swiper';
 import { CustomButton } from '../../atoms/button';
 import { ButtonSize } from '../../atoms/button/dto';
+import { Spinner } from '../../atoms/spinner';
 
 const ElementScreen = ({ route }: { route: any }) => {
   const {
@@ -34,7 +35,7 @@ const ElementScreen = ({ route }: { route: any }) => {
     loading,
     error: errorMessage,
     elementData,
-  } = APICustomHook({ APIEndpoint });
+  } = useFetch({ APIEndpoint });
 
   const renderElementData = (
     current: MainCategoryProps
@@ -488,18 +489,17 @@ const ElementScreen = ({ route }: { route: any }) => {
             alignItems: 'center',
           }}
         >
-          <ActivityIndicator size='large' color='white' />
+          <Spinner />
         </View>
       ) : (
         <></>
       )}
 
       {errorMessage ? (
-        <View>
-          <Text style={{ color: 'white', textAlign: 'center' }}>
-            {errorMessage}
-          </Text>
-        </View>
+        <CustomText
+          value={errorMessage}
+          additionalStyle={{ textAlign: 'center' }}
+        />
       ) : (
         <></>
       )}
