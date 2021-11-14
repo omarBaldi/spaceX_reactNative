@@ -1,6 +1,12 @@
-import { NavigationProp, ParamListBase } from '@react-navigation/native';
 import React from 'react';
-import { ImageBackground, Pressable, View, Text } from 'react-native';
+import { NavigationProp, ParamListBase } from '@react-navigation/native';
+import {
+  ImageBackground,
+  Pressable,
+  View,
+  Text,
+  ImageBackgroundProps,
+} from 'react-native';
 import {
   getImagePathRequire,
   MainCategories,
@@ -15,11 +21,10 @@ const HomepageScreen = ({
   route: any;
 }) => {
   const { name: currentScreenName }: { name: MainCategories } = route;
-  const APIEndpoint: string = mainCategoriesAPIEndpoint[currentScreenName];
 
-  const getBackgroundImage = () => {
-    return getImagePathRequire[currentScreenName];
-  };
+  const APIEndpoint: string = mainCategoriesAPIEndpoint[currentScreenName];
+  const getBackgroundImage: ImageBackgroundProps =
+    getImagePathRequire[currentScreenName];
 
   return (
     <Pressable
@@ -32,7 +37,7 @@ const HomepageScreen = ({
       style={{ flex: 1 }}
     >
       <ImageBackground
-        source={getBackgroundImage()}
+        source={getBackgroundImage}
         resizeMode='cover'
         style={{ flex: 1 }}
       />

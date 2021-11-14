@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { MainCategories } from './src/API';
 import { NavigationContainer } from '@react-navigation/native';
 import { TabScreenI } from './src/navigators/tabNavigator/dto';
@@ -7,7 +7,7 @@ import { DefaultStackNavigator } from './src/navigators/stackNavigator';
 
 /* APP - entry point */
 export default function App() {
-  const getMainCategoriesNavigators = () => {
+  const mainCategoriesNavigators = useMemo(() => {
     return Object.values(MainCategories).reduce((acc, value: string) => {
       const tabScreenName: string = value.concat('Navigator');
       return [
@@ -20,13 +20,13 @@ export default function App() {
         },
       ];
     }, [] as TabScreenI[]);
-  };
+  }, []);
 
   return (
     <NavigationContainer>
       <TabNavigator
         {...{
-          tabNavigatorData: getMainCategoriesNavigators(),
+          tabNavigatorData: mainCategoriesNavigators,
         }}
       />
     </NavigationContainer>

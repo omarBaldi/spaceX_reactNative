@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { Image } from 'react-native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { ElementScreen, ElementsScreen, HomepageScreen } from '../../screens';
@@ -18,31 +18,40 @@ const DefaultStackNavigator = ({
 }: {
   currentCategory: string;
 }): JSX.Element => {
-  return (
-    <Stack.Navigator>
-      <Stack.Screen
-        name={currentCategory}
-        component={HomepageScreen}
-        options={headerParams({ headerShown: false })}
-      />
-      <Stack.Screen
-        name='Category'
-        component={ElementsScreen}
-        options={headerParams({
+  const commonScreens = useMemo(() => {
+    return [
+      {
+        name: 'Category',
+        component: ElementsScreen,
+        options: headerParams({
           headerShown: true,
-          headerBackTitle: `Back to homepage`,
           headerRightComponent: defaultHeaderRightElement,
-        })}
-      />
-      <Stack.Screen
-        name='SubCategories'
-        component={ElementScreen}
-        options={headerParams({
+        }),
+      },
+      {
+        name: 'SubCategories',
+        component: ElementScreen,
+        options: headerParams({
           headerShown: true,
           headerBackTitle: `Back to ${currentCategory}`,
           headerRightComponent: defaultHeaderRightElement,
-        })}
-      />
+        }),
+      },
+    ];
+  }, []);
+
+  return (
+    <Stack.Navigator>
+      {[
+        {
+          name: currentCategory,
+          component: HomepageScreen,
+          options: headerParams({ headerShown: false }),
+        },
+        ...commonScreens,
+      ].map((screenData, index) => {
+        return <Stack.Screen key={index} {...screenData} />;
+      })}
     </Stack.Navigator>
   );
 };

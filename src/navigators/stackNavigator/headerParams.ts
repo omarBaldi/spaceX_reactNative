@@ -21,7 +21,7 @@ export const headerParams = ({
     headerTitle: headerTitle ?? '',
     headerStyle: headerCustomStyle ?? { backgroundColor: '#080808' },
     headerTintColor: headerCustomTintColor ?? 'white',
-    headerBackTitle: headerBackTitle ?? 'Back',
+    headerBackTitle: headerBackTitle ?? 'Back to homepage',
     headerRight: () => headerRightComponent ?? null,
   } as NativeStackNavigationOptions;
 };
